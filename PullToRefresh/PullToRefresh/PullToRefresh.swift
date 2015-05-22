@@ -156,11 +156,15 @@ class DefaultRefreshView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 40)
+        commonInit()
     }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 40)
     }
     
