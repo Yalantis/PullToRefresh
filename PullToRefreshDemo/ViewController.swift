@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Yalantis. All rights reserved.
 //
 
+import PullToRefresh
 import UIKit
 
 class ViewController: UIViewController {
