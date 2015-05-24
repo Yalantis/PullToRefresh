@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "YALPullToRefresh"
+  s.name         = "PullToRefresher"
   s.version      = "1.0"
   s.summary      = "This component implements pure pull-to-refresh logic and you can use it for developing your own pull-to-refresh animations"
 
