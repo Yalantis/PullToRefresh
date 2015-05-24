@@ -17,9 +17,8 @@ Pod::Spec.new do |s|
 
 
   s.source       = { :git => "https://github.com/Yalantis/PullToRefresh.git", :tag => "1.0" }
-
   s.source_files = "PullToRefresh/*.swift"
-
+  s.module_name  = "PullToRefresh"
   s.requires_arc = true
 
 end
