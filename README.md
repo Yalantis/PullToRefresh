@@ -15,6 +15,12 @@ pod 'PullToRefresher', '~> 1.0'
 
 ##Usage
 
+At first, import PullToRefresh:
+
+```swift
+import PullToRefresh
+```
+
 The easiest way to create *PullToRefresh*:
 
 ```swift
