@@ -10,6 +10,7 @@ This component implements pure pull-to-refresh logic and you can use it for deve
 ##Installing with [CocoaPods](https://cocoapods.org)
 
 ```ruby
+use_frameworks!
 pod 'PullToRefresher', '~> 1.0'
 ```
 
