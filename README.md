@@ -2,6 +2,26 @@
 
 This component implements pure pull-to-refresh logic and you can use it for developing your own pull-to-refresh animations, [like this one.](https://github.com/Yalantis/PullToMakeSoup)
 
+##Requirements
+- iOS 8.0+
+- Xcode 6.3
+- Swift 1.2
+
+##Installing with [CocoaPods](https://cocoapods.org)
+
+```ruby
+use_frameworks!
+pod 'PullToRefresher', '~> 1.0'
+```
+
+##Usage
+
+At first, import PullToRefresh:
+
+```swift
+import PullToRefresh
+```
+
 The easiest way to create *PullToRefresh*:
 
 ```swift
