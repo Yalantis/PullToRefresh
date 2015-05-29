@@ -97,7 +97,7 @@ public class PullToRefresh: NSObject {
             case -1000...(-refreshViewHeight):
                 if state == State.Releasing(progress: 1) && scrollView?.dragging == false {
                     state = .Loading
-                } else if state != .Loading {
+                } else if state != State.Loading && state != State.Finished {
                     state = .Releasing(progress: 1)
                 }
             default: break
@@ -134,9 +134,18 @@ public class PullToRefresh: NSObject {
 
 // MARK: - State enumeration
 
-public enum State:Equatable {
+public enum State:Equatable, Printable {
     case Inital, Loading, Finished
     case Releasing(progress: CGFloat)
+    
+    public var description: String {
+        switch self {
+        case .Inital: return "Inital"
+        case .Releasing(let progress): return "Releasing:\(progress)"
+        case .Loading: return "Loading"
+        case .Finished: return "Finished"
+        }
+    }
 }
 
 public func ==(a: State, b: State) -> Bool {
