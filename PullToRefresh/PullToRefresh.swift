@@ -91,7 +91,7 @@ public class PullToRefresh: NSObject {
             let refreshViewHeight = refreshView.frame.size.height
             
             switch offset {
-            case 0: state = .Inital
+            case 0 where (state != .Loading): state = .Inital
             case -refreshViewHeight...0 where (state != .Loading && state != .Finished):
                 state = .Releasing(progress: -offset / refreshViewHeight)
             case -1000...(-refreshViewHeight):
