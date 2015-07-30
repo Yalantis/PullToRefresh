@@ -46,7 +46,7 @@ public extension UIScrollView {
         pullToRefresh?.startRefreshing()
     }
     
-    func endRefresing() {
+    func endRefreshing() {
         pullToRefresh?.endRefreshing()
     }
 }
