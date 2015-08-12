@@ -205,6 +205,9 @@ class DefaultViewAnimator: RefreshViewAnimator {
         self.refreshView = refreshView
     }
     
+    func didSetScrollView(scrollView:UIScrollView) {
+    }
+    
     func animateState(state: State) {
         switch state {
         case .Inital: refreshView.activicyIndicator?.stopAnimating()
