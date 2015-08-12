@@ -11,6 +11,7 @@ import Foundation
 
 public protocol RefreshViewAnimator {
      func animateState(state: State)
+     func didSetScrollView(scrollView:UIScrollView)
 }
 
 // MARK: PullToRefresh
@@ -28,6 +29,7 @@ public class PullToRefresh: NSObject {
             if let scrollView = scrollView {
                 scrollViewDefaultInsets = scrollView.contentInset
                 scrollView.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
+                animator.didSetScrollView(scrollView)
             }
         }
     }
