@@ -192,6 +192,8 @@
 		4DDDB1951B0F7ED700DE9D93 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Yalantis;
 				TargetAttributes = {
