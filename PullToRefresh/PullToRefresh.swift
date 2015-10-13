@@ -95,7 +95,7 @@ public class PullToRefresh: NSObject {
     }
     
     deinit {
-        scrollView?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
+        removeScrollViewObserving()
     }
     
     // MARK: KVO
