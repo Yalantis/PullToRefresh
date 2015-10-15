@@ -2,6 +2,8 @@
 
 This component implements pure pull-to-refresh logic and you can use it for developing your own pull-to-refresh animations, [like this one.](https://github.com/Yalantis/PullToMakeSoup)
 
+[![Yalantis](https://raw.githubusercontent.com/Yalantis/PullToRefresh/develop/PullToRefreshDemo/Resources/badge_dark.png)](https://yalantis.com/?utm_source=github)
+
 ##Requirements
 - iOS 8.0+
 - Xcode 7
