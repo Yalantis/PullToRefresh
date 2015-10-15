@@ -1,9 +1,9 @@
 //
-//  PullToRefresh.swift
-//  CookingPullToRefresh
-//
 //  Created by Anastasiya Gorban on 4/14/15.
 //  Copyright (c) 2015 Yalantis. All rights reserved.
+//
+//  Licensed under the MIT license: http://opensource.org/licenses/MIT
+//  Latest version can be found at https://github.com/Yalantis/PullToRefresh
 //
 
 import UIKit
@@ -16,20 +16,35 @@ public protocol RefreshViewAnimator {
 // MARK: PullToRefresh
 
 public class PullToRefresh: NSObject {
+    
+    public var hideDelay: NSTimeInterval = 0
+
     let refreshView: UIView
     var action: (() -> ())?
     
     private let animator: RefreshViewAnimator
+    
+    // MARK: - ScrollView & Observing
 
     private var scrollViewDefaultInsets = UIEdgeInsetsZero
     weak var scrollView: UIScrollView? {
+        willSet {
+            removeScrollViewObserving()
+        }
         didSet {
-            oldValue?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
             if let scrollView = scrollView {
                 scrollViewDefaultInsets = scrollView.contentInset
-                scrollView.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
+                addScrollViewObserving()
             }
         }
+    }
+    
+    private func addScrollViewObserving() {
+        scrollView?.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
+    }
+    
+    private func removeScrollViewObserving() {
+        scrollView?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
     }
 
     // MARK: - State
@@ -54,10 +69,14 @@ public class PullToRefresh: NSObject {
                     action?()
                 }
             case .Finished:
-                UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
+                removeScrollViewObserving()
+                UIView.animateWithDuration(1, delay: hideDelay, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
                     self.scrollView?.contentInset = self.scrollViewDefaultInsets
                     self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
-                }, completion: nil)
+                }, completion: { finished in
+                    self.addScrollViewObserving()
+                    self.state = .Inital
+                })
             default: break
             }
         }
@@ -76,7 +95,7 @@ public class PullToRefresh: NSObject {
     }
     
     deinit {
-        scrollView?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
+        removeScrollViewObserving()
     }
     
     // MARK: KVO

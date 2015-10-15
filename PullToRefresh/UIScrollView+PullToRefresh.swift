@@ -1,9 +1,9 @@
 //
-//  UIScrollView+PullToRefresh.swift
-//  CookingPullToRefresh
-//
 //  Created by Anastasiya Gorban on 4/14/15.
 //  Copyright (c) 2015 Yalantis. All rights reserved.
+//
+//  Licensed under the MIT license: http://opensource.org/licenses/MIT
+//  Latest version can be found at https://github.com/Yalantis/PullToRefresh
 //
 
 import Foundation
