@@ -17,13 +17,19 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        tableView.addPullToRefresh(PullToRefresh(), action: {
+        tableView.addPullToRefresh(PullToRefresh(), action: { [weak self] in
             let delayTime = dispatch_time(DISPATCH_TIME_NOW,
-                Int64(5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), {[unowned self] in
-                self.tableView.endRefreshing()
-                })
+                Int64(2 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                self?.tableView.endRefreshing()
+            }
         })
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        tableView.removePullToRefresh(tableView.pullToRefresh!)
     }
     
     @IBAction
