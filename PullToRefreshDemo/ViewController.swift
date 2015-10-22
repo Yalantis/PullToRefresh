@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        createPullToRefresh ()
+        createPullToRefresh()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -37,16 +37,10 @@ class ViewController: UIViewController {
     }
     
     func deviceRotated() {
-        if(UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
-            createPullToRefresh ()
-        }
-        if(UIDeviceOrientationIsPortrait(UIDevice.currentDevice().orientation)) {
-            createPullToRefresh ()
-        }
-        
+            createPullToRefresh()
     }
     
-    private func createPullToRefresh () {
+    private func createPullToRefresh() {
         tableView.addPullToRefresh(PullToRefresh(), action: { [weak self] in
             let delayTime = dispatch_time(DISPATCH_TIME_NOW,
                 Int64(2 * Double(NSEC_PER_SEC)))
