@@ -203,16 +203,16 @@ class DefaultRefreshView: UIView {
             addSubview(activicyIndicator)
         }
         centerActivityIndicator()
-        frameInSuperview(superview)
+        setupFrameInSuperview(superview)
         super.layoutSubviews()
     }
     
     override func willMoveToSuperview(newSuperview: UIView?) {
         super.willMoveToSuperview(newSuperview)
-        frameInSuperview(superview)
+        setupFrameInSuperview(superview)
     }
     
-    private func frameInSuperview(newSuperview: UIView?) {
+    private func setupFrameInSuperview(newSuperview: UIView?) {
         if let superview = newSuperview {
             frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, 40)
         }
