@@ -199,7 +199,7 @@ class DefaultRefreshView: UIView {
     override func layoutSubviews() {
         if (activicyIndicator == nil) {
             activicyIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-            activicyIndicator.hidesWhenStopped = false
+            activicyIndicator.hidesWhenStopped = true
             addSubview(activicyIndicator)
         }
         centerActivityIndicator()
@@ -236,10 +236,12 @@ class DefaultViewAnimator: RefreshViewAnimator {
         switch state {
         case .Inital: refreshView.activicyIndicator?.stopAnimating()
         case .Releasing(let progress):
+            refreshView.activicyIndicator?.hidden = false
+
             var transform = CGAffineTransformIdentity
             transform = CGAffineTransformScale(transform, progress, progress);
             transform = CGAffineTransformRotate(transform, 3.14 * progress * 2);
-            refreshView.activicyIndicator.transform = transform
+            refreshView.activicyIndicator?.transform = transform
         case .Loading: refreshView.activicyIndicator.startAnimating()
         default: break
         }
