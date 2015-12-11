@@ -167,8 +167,8 @@ public enum State:Equatable, CustomStringConvertible {
     }
 }
 
-public func ==(a: State, b: State) -> Bool {
-    switch (a, b) {
+public func ==(lhs: State, rhs: State) -> Bool {
+    switch (lhs, rhs) {
     case (.Inital, .Inital): return true
     case (.Loading, .Loading): return true
     case (.Finished, .Finished): return true
