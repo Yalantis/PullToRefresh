@@ -11,6 +11,7 @@
 		1B49C6EB1C1AAE78003BE251 /* AwesomePullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B49C6E71C1AAE78003BE251 /* AwesomePullToRefresh.swift */; };
 		1B49C6EC1C1AAE78003BE251 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B49C6E81C1AAE78003BE251 /* RefreshView.swift */; };
 		1B49C6ED1C1AAE78003BE251 /* RefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B49C6E91C1AAE78003BE251 /* RefreshView.xib */; };
+		1B49C6EF1C1AB224003BE251 /* AwesomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B49C6EE1C1AB224003BE251 /* AwesomeViewController.swift */; };
 		4DDDB1A31B0F7ED700DE9D93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDB1A21B0F7ED700DE9D93 /* AppDelegate.swift */; };
 		4DDDB1A51B0F7ED700DE9D93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDB1A41B0F7ED700DE9D93 /* ViewController.swift */; };
 		4DDDB1A81B0F7ED700DE9D93 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DDDB1A61B0F7ED700DE9D93 /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 		1B49C6E71C1AAE78003BE251 /* AwesomePullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwesomePullToRefresh.swift; sourceTree = "<group>"; };
 		1B49C6E81C1AAE78003BE251 /* RefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		1B49C6E91C1AAE78003BE251 /* RefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefreshView.xib; sourceTree = "<group>"; };
+		1B49C6EE1C1AB224003BE251 /* AwesomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwesomeViewController.swift; sourceTree = "<group>"; };
 		4DDDB19D1B0F7ED700DE9D93 /* PullToRefreshDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PullToRefreshDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DDDB1A11B0F7ED700DE9D93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DDDB1A21B0F7ED700DE9D93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				1B49C6E51C1AAE78003BE251 /* AwesomePullToRefresh */,
 				4DDDB1A21B0F7ED700DE9D93 /* AppDelegate.swift */,
 				4DDDB1A41B0F7ED700DE9D93 /* ViewController.swift */,
+				1B49C6EE1C1AB224003BE251 /* AwesomeViewController.swift */,
 				4DDDB1A61B0F7ED700DE9D93 /* Main.storyboard */,
 				4DDDB1A91B0F7ED700DE9D93 /* Images.xcassets */,
 				4DDDB1AB1B0F7ED700DE9D93 /* LaunchScreen.xib */,
@@ -270,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B49C6EF1C1AB224003BE251 /* AwesomeViewController.swift in Sources */,
 				1B49C6EA1C1AAE78003BE251 /* Animator.swift in Sources */,
 				1B49C6EC1C1AAE78003BE251 /* RefreshView.swift in Sources */,
 				1B49C6EB1C1AAE78003BE251 /* AwesomePullToRefresh.swift in Sources */,
