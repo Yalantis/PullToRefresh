@@ -79,6 +79,7 @@ public class PullToRefresh: NSObject {
                             self.state = .Inital
                     })
                 } else {
+                    self.scrollView?.contentInset = self.scrollViewDefaultInsets
                     self.state = .Inital
                 }
             default: break
