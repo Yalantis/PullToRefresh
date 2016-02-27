@@ -28,7 +28,7 @@ public class PullToRefresh: NSObject {
     private let animator: RefreshViewAnimator
     
     // MARK: - ScrollView & Observing
-    
+
     private var scrollViewDefaultInsets = UIEdgeInsetsZero
     weak var scrollView: UIScrollView? {
         willSet {
@@ -41,7 +41,7 @@ public class PullToRefresh: NSObject {
             }
         }
     }
-    
+
     private func addScrollViewObserving() {
         scrollView?.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
     }
@@ -49,7 +49,7 @@ public class PullToRefresh: NSObject {
     private func removeScrollViewObserving() {
         scrollView?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
     }
-    
+
     // MARK: - State
     
     var state: State = .Inital {
@@ -76,9 +76,9 @@ public class PullToRefresh: NSObject {
                 UIView.animateWithDuration(1, delay: hideDelay, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
                     self.scrollView?.contentInset = self.scrollViewDefaultInsets
                     self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
-                    }, completion: { finished in
-                        self.addScrollViewObserving()
-                        self.state = .Inital
+                }, completion: { finished in
+                    self.addScrollViewObserving()
+                    self.state = .Inital
                 })
             default: break
             }
@@ -102,7 +102,7 @@ public class PullToRefresh: NSObject {
     }
     
     // MARK: KVO
-    
+
     private var KVOContext = "PullToRefreshKVOContext"
     private let contentOffsetKeyPath = "contentOffset"
     private var previousScrollViewOffset: CGPoint = CGPointZero
@@ -142,8 +142,8 @@ public class PullToRefresh: NSObject {
             Int64(0.27 * Double(NSEC_PER_SEC)))
         
         dispatch_after(delayTime, dispatch_get_main_queue(), {
-            self.state = State.Loading
-        })
+                self.state = State.Loading
+            })
     }
     
     func endRefreshing() {
@@ -239,7 +239,7 @@ class DefaultViewAnimator: RefreshViewAnimator {
         case .Inital: refreshView.activicyIndicator?.stopAnimating()
         case .Releasing(let progress):
             refreshView.activicyIndicator?.hidden = false
-            
+
             var transform = CGAffineTransformIdentity
             transform = CGAffineTransformScale(transform, progress, progress);
             transform = CGAffineTransformRotate(transform, 3.14 * progress * 2);
