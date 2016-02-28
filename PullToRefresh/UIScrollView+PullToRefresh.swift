@@ -33,6 +33,7 @@ public extension UIScrollView {
         
         let view = pullToRefresh.refreshView
         view.frame = CGRectMake(0, -view.frame.size.height, self.frame.size.width, view.frame.size.height)
+        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         self.addSubview(view)
         self.sendSubviewToBack(view)
     }
