@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 
 public protocol RefreshViewAnimator {
-     func animateState(state: State)
+    func animateState(state: State)
 }
 
 // MARK: PullToRefresh
@@ -18,7 +18,10 @@ public protocol RefreshViewAnimator {
 public class PullToRefresh: NSObject {
     
     public var hideDelay: NSTimeInterval = 0
-
+    
+    public lazy var refrshActivationHeight: CGFloat = {
+        return self.refreshView.frame.size.height
+    }()
     let refreshView: UIView
     var action: (() -> ())?
     
@@ -38,7 +41,7 @@ public class PullToRefresh: NSObject {
             }
         }
     }
-    
+
     private func addScrollViewObserving() {
         scrollView?.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
     }
@@ -58,7 +61,7 @@ public class PullToRefresh: NSObject {
                     scrollView.contentOffset = previousScrollViewOffset
                     scrollView.bounces = false
                     UIView.animateWithDuration(0.3, animations: {
-                        let insets = self.refreshView.frame.height + self.scrollViewDefaultInsets.top
+                        let insets = self.refrshActivationHeight + self.scrollViewDefaultInsets.top
                         scrollView.contentInset.top = insets
                         
                         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -insets)
@@ -107,13 +110,12 @@ public class PullToRefresh: NSObject {
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<()>) {
         if (context == &KVOContext && keyPath == contentOffsetKeyPath && object as? UIScrollView == scrollView) {
             let offset = previousScrollViewOffset.y + scrollViewDefaultInsets.top
-            let refreshViewHeight = refreshView.frame.size.height
             
             switch offset {
             case 0 where (state != .Loading): state = .Inital
-            case -refreshViewHeight...0 where (state != .Loading && state != .Finished):
-                state = .Releasing(progress: -offset / refreshViewHeight)
-            case -1000...(-refreshViewHeight):
+            case -refrshActivationHeight...0 where (state != .Loading && state != .Finished):
+                state = .Releasing(progress: -offset / refrshActivationHeight)
+            case -1000...(-refrshActivationHeight):
                 if state == State.Releasing(progress: 1) && scrollView?.dragging == false {
                     state = .Loading
                 } else if state != State.Loading && state != State.Finished {
@@ -135,7 +137,7 @@ public class PullToRefresh: NSObject {
             return
         }
         
-        scrollView?.setContentOffset(CGPointMake(0, -refreshView.frame.height - scrollViewDefaultInsets.top), animated: true)
+        scrollView?.setContentOffset(CGPointMake(0, -refrshActivationHeight - scrollViewDefaultInsets.top), animated: true)
         let delayTime = dispatch_time(DISPATCH_TIME_NOW,
             Int64(0.27 * Double(NSEC_PER_SEC)))
         
