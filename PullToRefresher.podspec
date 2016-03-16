@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "PullToRefresher"
-  s.version      = "1.3.1"
+  s.version      = "1.3.2"
   s.summary      = "This component implements pure pull-to-refresh logic and you can use it for developing your own pull-to-refresh animations"
 
   s.homepage     = "http://yalantis.com/blog/how-we-built-customizable-pull-to-refresh-pull-to-cook-soup-animation/"
