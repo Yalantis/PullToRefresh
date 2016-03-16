@@ -242,7 +242,7 @@ class DefaultViewAnimator: RefreshViewAnimator {
             transform = CGAffineTransformScale(transform, progress, progress);
             transform = CGAffineTransformRotate(transform, 3.14 * progress * 2);
             refreshView.activicyIndicator?.transform = transform
-        case .Loading: refreshView.activicyIndicator.startAnimating()
+        case .Loading: refreshView.activicyIndicator?.startAnimating()
         default: break
         }
     }
