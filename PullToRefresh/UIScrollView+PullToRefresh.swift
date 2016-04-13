@@ -38,6 +38,9 @@ public extension UIScrollView {
     }
     
     func removePullToRefresh(pullToRefresh: PullToRefresh) {
+        if self.pullToRefresh?.state == .Loading {
+            self.pullToRefresh?.state = .Finished
+        }
         self.pullToRefresh?.refreshView.removeFromSuperview()
         self.pullToRefresh = nil
     }
