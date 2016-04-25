@@ -15,14 +15,13 @@ public protocol RefreshViewAnimator {
 
 // MARK: PullToRefresh
 
+public enum Position {
+    case Top, Bottom
+}
+
 public class PullToRefresh: NSObject {
     
-    public enum Position {
-        case Top, Bottom
-    }
-    
     public var position: Position = .Top
-    
     public var hideDelay: NSTimeInterval = 0
 
     let refreshView: UIView

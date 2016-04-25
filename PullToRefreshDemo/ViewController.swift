@@ -9,23 +9,34 @@
 import PullToRefresh
 import UIKit
 
+private let kPageSize = 20
 class ViewController: UIViewController {
     
     @IBOutlet
     private var tableView: UITableView!
     
-    private var dataSourceCount = 20
+    private var dataSourceCount = kPageSize
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+        tableView.addPullToRefresh(PullToRefresh(), action: { [weak self] in
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW,
+                Int64(2 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                self?.dataSourceCount = kPageSize
+                self?.tableView.reloadData()
+                self?.tableView.endRefreshing()
+            }
+        })
+        
         tableView.addPullToRefresh(PullToRefresh(position: .Bottom), action: { [weak self] in
             let delayTime = dispatch_time(DISPATCH_TIME_NOW,
                 Int64(2 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
-                self?.dataSourceCount += 20
+                self?.dataSourceCount += kPageSize
                 self?.tableView.reloadData()
-                self?.tableView.endRefreshing()
+                self?.tableView.endRefreshing(position: .Bottom)
             }
         })
     }
@@ -33,7 +44,8 @@ class ViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        tableView.removePullToRefresh(tableView.pullToRefresh!)
+        tableView.removePullToRefresh(tableView.bottomPullToRefresh!)
+        tableView.removePullToRefresh(tableView.topPullToRefresh!)
     }
     
     @IBAction

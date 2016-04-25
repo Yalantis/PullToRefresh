@@ -10,34 +10,46 @@ import Foundation
 import UIKit
 import ObjectiveC
 
-private var associatedObjectHandle: UInt8 = 0
+private var topPullToRefreshKey: UInt8 = 0
+private var bottomPullToRefreshKey: UInt8 = 0
 
 public extension UIScrollView {
-    private(set) var pullToRefresh: PullToRefresh? {
+    private(set) var topPullToRefresh: PullToRefresh? {
         get {
-            return objc_getAssociatedObject(self, &associatedObjectHandle) as? PullToRefresh
+            return objc_getAssociatedObject(self, &topPullToRefreshKey) as? PullToRefresh
         }
         set {
-            objc_setAssociatedObject(self, &associatedObjectHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &topPullToRefreshKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    private(set) var bottomPullToRefresh: PullToRefresh? {
+        get {
+            return objc_getAssociatedObject(self, &bottomPullToRefreshKey) as? PullToRefresh
+        }
+        set {
+            objc_setAssociatedObject(self, &bottomPullToRefreshKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     public func addPullToRefresh(pullToRefresh: PullToRefresh, action:()->()) {
-        if self.pullToRefresh != nil {
-            self.removePullToRefresh(self.pullToRefresh!)
-        }
-        
-        self.pullToRefresh = pullToRefresh
         pullToRefresh.scrollView = self
         pullToRefresh.action = action
         
-        let view = pullToRefresh.refreshView
-        
         var originY: CGFloat
+        let view = pullToRefresh.refreshView
         switch pullToRefresh.position {
         case .Top:
+            if self.topPullToRefresh != nil {
+                self.removePullToRefresh(self.topPullToRefresh!)
+            }
+            self.topPullToRefresh = pullToRefresh
             originY = -view.frame.size.height
         case .Bottom:
+            if self.bottomPullToRefresh != nil {
+                self.removePullToRefresh(self.bottomPullToRefresh!)
+            }
+            self.bottomPullToRefresh = pullToRefresh
             originY = self.contentSize.height
         }
         
@@ -47,15 +59,32 @@ public extension UIScrollView {
     }
     
     func removePullToRefresh(pullToRefresh: PullToRefresh) {
-        self.pullToRefresh?.refreshView.removeFromSuperview()
-        self.pullToRefresh = nil
+        switch pullToRefresh.position {
+        case .Top:
+            self.topPullToRefresh?.refreshView.removeFromSuperview()
+            self.topPullToRefresh = nil
+        case .Bottom:
+            self.bottomPullToRefresh?.refreshView.removeFromSuperview()
+            self.bottomPullToRefresh = nil
+        }
     }
     
-    func startRefreshing() {
-        pullToRefresh?.startRefreshing()
+    func startRefreshing(position pos: Position = .Top) {
+        switch pos {
+        case .Top:
+            self.topPullToRefresh?.startRefreshing()
+        case .Bottom:
+            self.bottomPullToRefresh?.startRefreshing()
+        }
     }
     
-    func endRefreshing() {
-        pullToRefresh?.endRefreshing()
+    func endRefreshing(position pos: Position = .Top) {
+        switch pos {
+        case .Top:
+            self.topPullToRefresh?.endRefreshing()
+        case .Bottom:
+            self.bottomPullToRefresh?.endRefreshing()
+        }
     }
 }
+
