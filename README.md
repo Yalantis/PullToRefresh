@@ -30,6 +30,12 @@ The easiest way to create *PullToRefresh*:
 let refresher = PullToRefresh()
 ```
 
+If you also want pull up to refresh from the bottom:
+
+```swift
+let refresher = PullToRefresh(position: .Bottom) // refresher.position = .Bottom
+```
+
 It will create a default pull-to-refresh with a simple view which has single *UIActivitiIndicatorView*. To add refresher to your *UIScrollView* subclass:
 
 ```swift
