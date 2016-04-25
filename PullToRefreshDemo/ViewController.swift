@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        tableView.addPullToRefresh(PullToRefresh(), action: { [weak self] in
+        tableView.addPullToRefresh(PullToRefresh(position: .Bottom), action: { [weak self] in
             let delayTime = dispatch_time(DISPATCH_TIME_NOW,
                 Int64(2 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
@@ -35,6 +35,23 @@ class ViewController: UIViewController {
     @IBAction
     private func startRefreshing() {
         tableView.startRefreshing()
+    }
+}
+
+extension ViewController:UITableViewDataSource {
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 50
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+        cell.textLabel?.text = "\(indexPath.row)"
+        return cell
     }
 }
 
