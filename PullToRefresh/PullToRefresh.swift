@@ -47,10 +47,12 @@ public class PullToRefresh: NSObject {
     
     private func addScrollViewObserving() {
         scrollView?.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
+        scrollView?.addObserver(self, forKeyPath: contentSizeKeyPath, options: .Initial, context: &KVOContext)
     }
     
     private func removeScrollViewObserving() {
         scrollView?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
+        scrollView?.removeObserver(self, forKeyPath: contentSizeKeyPath, context: &KVOContext)
     }
 
     // MARK: - State
@@ -118,6 +120,7 @@ public class PullToRefresh: NSObject {
 
     private var KVOContext = "PullToRefreshKVOContext"
     private let contentOffsetKeyPath = "contentOffset"
+    private let contentSizeKeyPath = "contentSize"
     private var previousScrollViewOffset: CGPoint = CGPointZero
     
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<()>) {
@@ -143,6 +146,10 @@ public class PullToRefresh: NSObject {
                     state = .Releasing(progress: 1)
                 }
             default: break
+            }
+        } else if (context == &KVOContext && keyPath == contentSizeKeyPath && object as? UIScrollView == scrollView) {
+            if case .Bottom = position {
+                refreshView.frame = CGRect(x: 0, y: scrollView!.contentSize.height, width: scrollView!.bounds.width, height: refreshView.bounds.height)
             }
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)

@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet
     private var tableView: UITableView!
     
+    private var dataSourceCount = 20
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -21,6 +23,8 @@ class ViewController: UIViewController {
             let delayTime = dispatch_time(DISPATCH_TIME_NOW,
                 Int64(2 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
+                self?.dataSourceCount += 20
+                self?.tableView.reloadData()
                 self?.tableView.endRefreshing()
             }
         })
@@ -45,7 +49,7 @@ extension ViewController:UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 50
+        return dataSourceCount
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
