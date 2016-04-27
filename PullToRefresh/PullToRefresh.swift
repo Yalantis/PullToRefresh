@@ -229,7 +229,7 @@ class DefaultRefreshView: UIView {
     }
     
     private func commonInit() {
-        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 40)
+        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 80.0)
     }
     
     override func layoutSubviews() {
@@ -250,7 +250,7 @@ class DefaultRefreshView: UIView {
     
     private func setupFrameInSuperview(newSuperview: UIView?) {
         if let superview = newSuperview {
-            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, 40)
+            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, 80.0)
         }
     }
     
