@@ -84,7 +84,7 @@ public class PullToRefresh: NSObject {
                 }
             case .Finished:
                 removeScrollViewObserving()
-                UIView.animateWithDuration(1, delay: hideDelay, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
+                UIView.animateWithDuration(1.0, delay: hideDelay, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
                     self.scrollView?.contentInset = self.scrollViewDefaultInsets
                     if case .Top = self.position {
                         self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
@@ -129,11 +129,15 @@ public class PullToRefresh: NSObject {
             case .Top:
                 offset = previousScrollViewOffset.y + scrollViewDefaultInsets.top
             case .Bottom:
-                offset = scrollView!.contentSize.height - previousScrollViewOffset.y - self.scrollView!.bounds.height
+                if scrollView!.contentSize.height > scrollView!.bounds.height {
+                    offset = scrollView!.contentSize.height - previousScrollViewOffset.y - scrollView!.bounds.height
+                } else {
+                    offset = scrollView!.contentSize.height - previousScrollViewOffset.y
+                }
             }
-      
+
             let refreshViewHeight = refreshView.frame.size.height
-            
+
             switch offset {
             case 0 where (state != .Loading): state = .Inital
             case -refreshViewHeight...0 where (state != .Loading && state != .Finished):
