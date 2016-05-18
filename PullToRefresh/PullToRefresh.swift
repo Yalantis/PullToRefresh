@@ -125,7 +125,7 @@ public class PullToRefresh: NSObject {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
         
-        previousScrollViewOffset.y = scrollView!.contentOffset.y
+        previousScrollViewOffset.y = scrollView?.contentOffset.y ?? 0
     }
     
     // MARK: - Start/End Refreshing
@@ -180,7 +180,7 @@ public func ==(a: State, b: State) -> Bool {
 // MARK: Default PullToRefresh
 
 class DefaultRefreshView: UIView {
-    private(set) var activicyIndicator: UIActivityIndicatorView!
+    private(set) var activityIndicator: UIActivityIndicatorView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -197,10 +197,10 @@ class DefaultRefreshView: UIView {
     }
     
     override func layoutSubviews() {
-        if (activicyIndicator == nil) {
-            activicyIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-            activicyIndicator.hidesWhenStopped = true
-            addSubview(activicyIndicator)
+        if (activityIndicator == nil) {
+            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+            activityIndicator.hidesWhenStopped = true
+            addSubview(activityIndicator)
         }
         centerActivityIndicator()
         setupFrameInSuperview(superview)
@@ -219,9 +219,7 @@ class DefaultRefreshView: UIView {
     }
     
     private func centerActivityIndicator() {
-        if (activicyIndicator != nil) {
-            activicyIndicator.center = convertPoint(center, fromView: superview)
-        }
+        activityIndicator?.center = convertPoint(center, fromView: superview)
     }
 }
 
@@ -234,15 +232,15 @@ class DefaultViewAnimator: RefreshViewAnimator {
     
     func animateState(state: State) {
         switch state {
-        case .Inital: refreshView.activicyIndicator?.stopAnimating()
+        case .Inital: refreshView.activityIndicator?.stopAnimating()
         case .Releasing(let progress):
-            refreshView.activicyIndicator?.hidden = false
+            refreshView.activityIndicator?.hidden = false
 
             var transform = CGAffineTransformIdentity
             transform = CGAffineTransformScale(transform, progress, progress);
             transform = CGAffineTransformRotate(transform, 3.14 * progress * 2);
-            refreshView.activicyIndicator?.transform = transform
-        case .Loading: refreshView.activicyIndicator?.startAnimating()
+            refreshView.activityIndicator?.transform = transform
+        case .Loading: refreshView.activityIndicator?.startAnimating()
         default: break
         }
     }
