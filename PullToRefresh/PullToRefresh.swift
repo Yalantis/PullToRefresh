@@ -180,7 +180,13 @@ public func ==(a: State, b: State) -> Bool {
 
 public class DefaultRefreshView: UIView {
     private(set) var activicyIndicator: UIActivityIndicatorView!
-    
+
+    public var height: CGFloat = 40 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -192,7 +198,7 @@ public class DefaultRefreshView: UIView {
     }
     
     private func commonInit() {
-        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 40)
+        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, height)
     }
     
     public override func layoutSubviews() {
@@ -213,7 +219,7 @@ public class DefaultRefreshView: UIView {
     
     private func setupFrameInSuperview(newSuperview: UIView?) {
         if let superview = newSuperview {
-            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, 40)
+            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, height)
         }
     }
     

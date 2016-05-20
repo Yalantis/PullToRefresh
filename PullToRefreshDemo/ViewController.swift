@@ -19,8 +19,10 @@ class ViewController: UIViewController {
 
         let pullToRefresh = PullToRefresh()
 
-        // Uncomment to view simple animation customizations
+        // Uncomment to view simple customizations
 //        let refreshView = DefaultRefreshView()
+//        refreshView.height = 60
+//
 //        let animator = DefaultViewAnimator(refreshView: refreshView)
 //        animator.loadingAnimationDuration = 0.6
 //        animator.finishedAnimationDuration = 2.0
