@@ -58,11 +58,11 @@ public class PullToRefresh: NSObject {
                     scrollView.contentOffset = previousScrollViewOffset
                     scrollView.bounces = false
                     animator.animateLoading(animations: {
-                            let insets = self.refreshView.frame.height + self.scrollViewDefaultInsets.top
-                            scrollView.contentInset.top = insets
-                            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -insets)
-                        }, completion: { _ in
-                            scrollView.bounces = true
+                        let insets = self.refreshView.frame.height + self.scrollViewDefaultInsets.top
+                        scrollView.contentInset.top = insets
+                        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -insets)
+                    }, completion: { _ in
+                        scrollView.bounces = true
                     })
                     
                     action?()
@@ -70,11 +70,11 @@ public class PullToRefresh: NSObject {
             case .Finished:
                 removeScrollViewObserving()
                 animator.animateFinished(animations: {
-                        self.scrollView?.contentInset = self.scrollViewDefaultInsets
-                        self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
-                    }, completion: { _ in
-                        self.addScrollViewObserving()
-                        self.state = .Inital
+                    self.scrollView?.contentInset = self.scrollViewDefaultInsets
+                    self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
+                }, completion: { _ in
+                    self.addScrollViewObserving()
+                    self.state = .Inital
                 })
             default: break
             }
