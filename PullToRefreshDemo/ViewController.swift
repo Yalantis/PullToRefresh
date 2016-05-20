@@ -17,7 +17,20 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        tableView.addPullToRefresh(PullToRefresh(), action: { [weak self] in
+        let pullToRefresh = PullToRefresh()
+
+        // Uncomment to view simple customizations
+//        let refreshView = DefaultRefreshView()
+//        refreshView.height = 60
+//
+//        let animator = DefaultViewAnimator(refreshView: refreshView)
+//        animator.loadingAnimationDuration = 0.6
+//        animator.finishedAnimationDuration = 2.0
+//        animator.finishedAnimationSpringVelocity = 1.6
+//
+//        let customPullToRefresh = PullToRefresh(refreshView: refreshView, animator: animator)
+
+        tableView.addPullToRefresh(pullToRefresh, action: { [weak self] in
             let delayTime = dispatch_time(DISPATCH_TIME_NOW,
                 Int64(2 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {

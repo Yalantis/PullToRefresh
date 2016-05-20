@@ -11,13 +11,13 @@ import Foundation
 
 public protocol RefreshViewAnimator {
      func animateState(state: State)
+    func animateLoading(animations animations: () -> (), completion: (Bool) -> ())
+    func animateFinished(animations animations: () -> (), completion: (Bool) -> ())
 }
 
 // MARK: PullToRefresh
 
 public class PullToRefresh: NSObject {
-    
-    public var hideDelay: NSTimeInterval = 0
 
     let refreshView: UIView
     var action: (() -> ())?
@@ -57,23 +57,22 @@ public class PullToRefresh: NSObject {
                 if let scrollView = scrollView where (oldValue != .Loading) {
                     scrollView.contentOffset = previousScrollViewOffset
                     scrollView.bounces = false
-                    UIView.animateWithDuration(0.3, animations: {
+                    animator.animateLoading(animations: {
                         let insets = self.refreshView.frame.height + self.scrollViewDefaultInsets.top
                         scrollView.contentInset.top = insets
-                        
                         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -insets)
-                        }, completion: { finished in
-                            scrollView.bounces = true
+                    }, completion: { _ in
+                        scrollView.bounces = true
                     })
                     
                     action?()
                 }
             case .Finished:
                 removeScrollViewObserving()
-                UIView.animateWithDuration(1, delay: hideDelay, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
+                animator.animateFinished(animations: {
                     self.scrollView?.contentInset = self.scrollViewDefaultInsets
                     self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
-                }, completion: { finished in
+                }, completion: { _ in
                     self.addScrollViewObserving()
                     self.state = .Inital
                 })
@@ -179,24 +178,30 @@ public func ==(a: State, b: State) -> Bool {
 
 // MARK: Default PullToRefresh
 
-class DefaultRefreshView: UIView {
+public class DefaultRefreshView: UIView {
     private(set) var activicyIndicator: UIActivityIndicatorView!
-    
+
+    public var height: CGFloat = 40 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
     
     private func commonInit() {
-        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 40)
+        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, height)
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         if (activicyIndicator == nil) {
             activicyIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
             activicyIndicator.hidesWhenStopped = true
@@ -207,14 +212,14 @@ class DefaultRefreshView: UIView {
         super.layoutSubviews()
     }
     
-    override func willMoveToSuperview(newSuperview: UIView?) {
+    public override func willMoveToSuperview(newSuperview: UIView?) {
         super.willMoveToSuperview(newSuperview)
         setupFrameInSuperview(superview)
     }
     
     private func setupFrameInSuperview(newSuperview: UIView?) {
         if let superview = newSuperview {
-            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, 40)
+            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, height)
         }
     }
     
@@ -225,14 +230,23 @@ class DefaultRefreshView: UIView {
     }
 }
 
-class DefaultViewAnimator: RefreshViewAnimator {
+public class DefaultViewAnimator: RefreshViewAnimator {
+    
+    public var loadingAnimationDuration: NSTimeInterval = 0.3
+    
+    public var finishedAnimationDuration: NSTimeInterval = 1.0
+    public var finishedAnimationDelay: NSTimeInterval = 0
+    public var finishedAnimationSpringDamping: CGFloat = 0.4
+    public var finishedAnimationSpringVelocity: CGFloat = 0.8
+    public var finishedAnimationOptions: UIViewAnimationOptions = UIViewAnimationOptions.CurveLinear
+    
     private let refreshView: DefaultRefreshView
     
-    init(refreshView: DefaultRefreshView) {
+    public init(refreshView: DefaultRefreshView) {
         self.refreshView = refreshView
     }
     
-    func animateState(state: State) {
+    public func animateState(state: State) {
         switch state {
         case .Inital: refreshView.activicyIndicator?.stopAnimating()
         case .Releasing(let progress):
@@ -245,5 +259,13 @@ class DefaultViewAnimator: RefreshViewAnimator {
         case .Loading: refreshView.activicyIndicator?.startAnimating()
         default: break
         }
+    }
+
+    public func animateLoading(animations animations: () -> (), completion: (Bool) -> ()) {
+        UIView.animateWithDuration(loadingAnimationDuration, animations: animations, completion: completion)
+    }
+
+    public func animateFinished(animations animations: () -> (), completion: (Bool) -> ()) {
+        UIView.animateWithDuration(finishedAnimationDuration, delay: finishedAnimationDelay, usingSpringWithDamping: finishedAnimationSpringDamping, initialSpringVelocity: finishedAnimationSpringVelocity, options: finishedAnimationOptions, animations: animations, completion: completion)
     }
 }
