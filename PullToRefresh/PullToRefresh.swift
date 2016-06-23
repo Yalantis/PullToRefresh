@@ -21,7 +21,8 @@ public class PullToRefresh: NSObject {
 
     let refreshView: UIView
     var action: (() -> ())?
-    
+	var observing = false
+ 
     private let animator: RefreshViewAnimator
     
     // MARK: - ScrollView & Observing
@@ -39,13 +40,19 @@ public class PullToRefresh: NSObject {
         }
     }
     
-    private func addScrollViewObserving() {
-        scrollView?.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
-    }
-    
-    private func removeScrollViewObserving() {
-        scrollView?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
-    }
+	private func addScrollViewObserving() {
+		if ( !observing ) {
+			observing = true;
+			scrollView?.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
+		}
+	}
+	
+	private func removeScrollViewObserving() {
+		if ( observing ) {
+			observing = false;
+			scrollView?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
+		}
+	}
 
     // MARK: - State
     
