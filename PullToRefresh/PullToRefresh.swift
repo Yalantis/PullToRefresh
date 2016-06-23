@@ -41,16 +41,16 @@ public class PullToRefresh: NSObject {
     }
     
 	private func addScrollViewObserving() {
-		if ( !observing ) {
+		if let scrollView = scrollView where (observing == false) {
 			observing = true;
-			scrollView?.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
+			scrollView.addObserver(self, forKeyPath: contentOffsetKeyPath, options: .Initial, context: &KVOContext)
 		}
 	}
 	
 	private func removeScrollViewObserving() {
-		if ( observing ) {
+		if let scrollView = scrollView where (observing == true) {
 			observing = false;
-			scrollView?.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
+			scrollView.removeObserver(self, forKeyPath: contentOffsetKeyPath, context: &KVOContext)
 		}
 	}
 
