@@ -7,13 +7,6 @@
 //
 
 import UIKit
-import Foundation
-
-public protocol RefreshViewAnimator {
-     func animateState(state: State)
-}
-
-// MARK: PullToRefresh
 
 public class PullToRefresh: NSObject {
     
@@ -68,6 +61,7 @@ public class PullToRefresh: NSObject {
                     
                     action?()
                 }
+                
             case .Finished:
                 removeScrollViewObserving()
                 UIView.animateWithDuration(1, delay: hideDelay, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
@@ -77,6 +71,7 @@ public class PullToRefresh: NSObject {
                     self.addScrollViewObserving()
                     self.state = .Initial
                 })
+                
             default: break
             }
         }
@@ -114,9 +109,9 @@ public class PullToRefresh: NSObject {
             case -refreshViewHeight...0 where (state != .Loading && state != .Finished):
                 state = .Releasing(progress: -offset / refreshViewHeight)
             case -1000...(-refreshViewHeight):
-                if state == State.Releasing(progress: 1) && scrollView?.dragging == false {
+                if state == .Releasing(progress: 1) && scrollView?.dragging == false {
                     state = .Loading
-                } else if state != State.Loading && state != State.Finished {
+                } else if state != .Loading && state != .Finished {
                     state = .Releasing(progress: 1)
                 }
             default: break
@@ -131,119 +126,20 @@ public class PullToRefresh: NSObject {
     // MARK: - Start/End Refreshing
     
     func startRefreshing() {
-        if self.state != State.Initial {
+        if self.state != .Initial {
             return
         }
         
         scrollView?.setContentOffset(CGPointMake(0, -refreshView.frame.height - scrollViewDefaultInsets.top), animated: true)
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW,
-            Int64(0.27 * Double(NSEC_PER_SEC)))
-        
-        dispatch_after(delayTime, dispatch_get_main_queue(), {
-                self.state = State.Loading
-            })
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.27 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
+            self?.state = .Loading
+        }
     }
     
     func endRefreshing() {
         if state == .Loading {
             state = .Finished
-        }
-    }
-}
-
-// MARK: - State enumeration
-
-public enum State:Equatable, CustomStringConvertible {
-    case Initial, Loading, Finished
-    case Releasing(progress: CGFloat)
-    
-    public var description: String {
-        switch self {
-        case .Initial: return "Inital"
-        case .Releasing(let progress): return "Releasing:\(progress)"
-        case .Loading: return "Loading"
-        case .Finished: return "Finished"
-        }
-    }
-}
-
-public func ==(a: State, b: State) -> Bool {
-    switch (a, b) {
-    case (.Initial, .Initial): return true
-    case (.Loading, .Loading): return true
-    case (.Finished, .Finished): return true
-    case (.Releasing, .Releasing): return true
-    default: return false
-    }
-}
-
-// MARK: Default PullToRefresh
-
-class DefaultRefreshView: UIView {
-    private(set) var activicyIndicator: UIActivityIndicatorView!
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
-        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 40)
-    }
-    
-    override func layoutSubviews() {
-        if (activicyIndicator == nil) {
-            activicyIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-            activicyIndicator.hidesWhenStopped = true
-            addSubview(activicyIndicator)
-        }
-        centerActivityIndicator()
-        setupFrameInSuperview(superview)
-        super.layoutSubviews()
-    }
-    
-    override func willMoveToSuperview(newSuperview: UIView?) {
-        super.willMoveToSuperview(newSuperview)
-        setupFrameInSuperview(superview)
-    }
-    
-    private func setupFrameInSuperview(newSuperview: UIView?) {
-        if let superview = newSuperview {
-            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, 40)
-        }
-    }
-    
-    private func centerActivityIndicator() {
-        if (activicyIndicator != nil) {
-            activicyIndicator.center = convertPoint(center, fromView: superview)
-        }
-    }
-}
-
-class DefaultViewAnimator: RefreshViewAnimator {
-    private let refreshView: DefaultRefreshView
-    
-    init(refreshView: DefaultRefreshView) {
-        self.refreshView = refreshView
-    }
-    
-    func animateState(state: State) {
-        switch state {
-        case .Initial: refreshView.activicyIndicator?.stopAnimating()
-        case .Releasing(let progress):
-            refreshView.activicyIndicator?.hidden = false
-
-            var transform = CGAffineTransformIdentity
-            transform = CGAffineTransformScale(transform, progress, progress);
-            transform = CGAffineTransformRotate(transform, 3.14 * progress * 2);
-            refreshView.activicyIndicator?.transform = transform
-        case .Loading: refreshView.activicyIndicator?.startAnimating()
-        default: break
         }
     }
 }

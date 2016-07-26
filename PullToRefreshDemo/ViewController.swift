@@ -11,8 +11,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet
-    private var tableView: UITableView!
+    @IBOutlet private var tableView: UITableView!
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -29,12 +28,10 @@ class ViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        tableView.removePullToRefresh(tableView.pullToRefresh!)
+//        tableView.removePullToRefresh(tableView.pullToRefresh!)
     }
     
-    @IBAction
-    private func startRefreshing() {
+    @IBAction private func startRefreshing() {
         tableView.startRefreshing()
     }
 }
-

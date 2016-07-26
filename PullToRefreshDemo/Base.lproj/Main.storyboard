@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ZGg-U6-vBi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ZGg-U6-vBi">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -19,11 +19,9 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4ML-Qp-1Z2">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4ML-Qp-1Z2" firstAttribute="leading" secondItem="Yhf-yd-ajd" secondAttribute="leading" id="99T-3Q-Wd8"/>
@@ -45,7 +43,39 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mxo-Zg-Pja" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="231" y="411"/>
+            <point key="canvasLocation" x="1863" y="-381"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="bVp-zg-f5W">
+            <objects>
+                <viewController id="z3X-Ev-lm7" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yo2-Gt-wKm"/>
+                        <viewControllerLayoutGuide type="bottom" id="19o-Ie-omY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cXU-so-QTd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23S-du-DGI">
+                                <rect key="frame" x="277" y="285" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="euR-sR-P7S" kind="show" id="65V-BY-Ca3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="23S-du-DGI" firstAttribute="centerX" secondItem="cXU-so-QTd" secondAttribute="centerX" id="EIw-Zp-GEU"/>
+                            <constraint firstItem="23S-du-DGI" firstAttribute="centerY" secondItem="cXU-so-QTd" secondAttribute="centerY" id="l6T-Px-le8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="tAS-nr-uIP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jiK-Lb-1WE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021" y="-368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jfe-TW-Mdh">
@@ -55,11 +85,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="XAP-0K-8ON">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="euR-sR-P7S" kind="relationship" relationship="rootViewController" id="eCS-KI-4K0"/>
+                        <segue destination="z3X-Ev-lm7" kind="relationship" relationship="rootViewController" id="Nx1-yI-cZP"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="czg-Qi-mg5" userLabel="First Responder" sceneMemberID="firstResponder"/>
