@@ -49,7 +49,7 @@ public class PullToRefresh: NSObject {
 
     // MARK: - State
     
-    var state: State = .Inital {
+    var state: State = .Initial {
         didSet {
             animator.animateState(state)
             switch state {
@@ -75,7 +75,7 @@ public class PullToRefresh: NSObject {
                     self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
                 }, completion: { finished in
                     self.addScrollViewObserving()
-                    self.state = .Inital
+                    self.state = .Initial
                 })
             default: break
             }
@@ -110,7 +110,7 @@ public class PullToRefresh: NSObject {
             let refreshViewHeight = refreshView.frame.size.height
             
             switch offset {
-            case 0 where (state != .Loading): state = .Inital
+            case 0 where (state != .Loading): state = .Initial
             case -refreshViewHeight...0 where (state != .Loading && state != .Finished):
                 state = .Releasing(progress: -offset / refreshViewHeight)
             case -1000...(-refreshViewHeight):
@@ -131,7 +131,7 @@ public class PullToRefresh: NSObject {
     // MARK: - Start/End Refreshing
     
     func startRefreshing() {
-        if self.state != State.Inital {
+        if self.state != State.Initial {
             return
         }
         
@@ -154,12 +154,12 @@ public class PullToRefresh: NSObject {
 // MARK: - State enumeration
 
 public enum State:Equatable, CustomStringConvertible {
-    case Inital, Loading, Finished
+    case Initial, Loading, Finished
     case Releasing(progress: CGFloat)
     
     public var description: String {
         switch self {
-        case .Inital: return "Inital"
+        case .Initial: return "Inital"
         case .Releasing(let progress): return "Releasing:\(progress)"
         case .Loading: return "Loading"
         case .Finished: return "Finished"
@@ -169,7 +169,7 @@ public enum State:Equatable, CustomStringConvertible {
 
 public func ==(a: State, b: State) -> Bool {
     switch (a, b) {
-    case (.Inital, .Inital): return true
+    case (.Initial, .Initial): return true
     case (.Loading, .Loading): return true
     case (.Finished, .Finished): return true
     case (.Releasing, .Releasing): return true
@@ -234,7 +234,7 @@ class DefaultViewAnimator: RefreshViewAnimator {
     
     func animateState(state: State) {
         switch state {
-        case .Inital: refreshView.activicyIndicator?.stopAnimating()
+        case .Initial: refreshView.activicyIndicator?.stopAnimating()
         case .Releasing(let progress):
             refreshView.activicyIndicator?.hidden = false
 
