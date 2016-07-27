@@ -24,8 +24,8 @@ public extension UIScrollView {
     }
     
     public func addPullToRefresh(pullToRefresh: PullToRefresh, action: () -> ()) {
-        if self.pullToRefresh != nil {
-            self.removePullToRefresh(self.pullToRefresh!)
+        if let previousPullToRefresh = self.pullToRefresh  {
+            self.removePullToRefresh(previousPullToRefresh)
         }
         
         pullToRefresh.scrollView = self

@@ -126,7 +126,7 @@ public class PullToRefresh: NSObject {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
         
-        previousScrollViewOffset.y = scrollView!.contentOffset.y
+        previousScrollViewOffset.y = scrollView?.contentOffset.y ?? 0
     }
     
     // MARK: - Start/End Refreshing

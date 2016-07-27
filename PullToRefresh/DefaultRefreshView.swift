@@ -13,10 +13,13 @@ class DefaultRefreshView: UIView {
     private(set) var activityIndicator: UIActivityIndicatorView?
 
     override func layoutSubviews() {
-        if (activityIndicator == nil) {
-            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-            activityIndicator!.hidesWhenStopped = true
-            addSubview(activityIndicator!)
+        if activityIndicator == nil {
+            activityIndicator = {
+                let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+                activityIndicator.hidesWhenStopped = true
+                addSubview(activityIndicator)
+                return activityIndicator
+            }()
         }
         centerActivityIndicator()
         setupFrameInSuperview(superview)
