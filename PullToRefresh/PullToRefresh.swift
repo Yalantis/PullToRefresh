@@ -79,14 +79,15 @@ public class PullToRefresh: NSObject {
     
     // MARK: - Initialization
     
-    public init(refreshView: UIView, animator: RefreshViewAnimator) {
+    public init(refreshView: UIView, animator: RefreshViewAnimator, height: CGFloat) {
         self.refreshView = refreshView
         self.animator = animator
     }
     
-    public override convenience init() {
+    public convenience init(height: CGFloat = 40) {
         let refreshView = DefaultRefreshView()
-        self.init(refreshView: refreshView, animator: DefaultViewAnimator(refreshView: refreshView))
+        refreshView.frame.size.height = height
+        self.init(refreshView: refreshView, animator: DefaultViewAnimator(refreshView: refreshView), height: height)
     }
     
     deinit {

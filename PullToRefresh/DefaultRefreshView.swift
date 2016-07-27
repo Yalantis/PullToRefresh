@@ -11,21 +11,7 @@ import UIKit
 class DefaultRefreshView: UIView {
     
     private(set) var activityIndicator: UIActivityIndicatorView?
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
-        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 40)
-    }
-    
+
     override func layoutSubviews() {
         if (activityIndicator == nil) {
             activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
@@ -47,7 +33,7 @@ private extension DefaultRefreshView {
     
     func setupFrameInSuperview(newSuperview: UIView?) {
         if let superview = newSuperview {
-            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, 40)
+            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, frame.height)
         }
     }
     
