@@ -43,39 +43,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mxo-Zg-Pja" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1863" y="-381"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="bVp-zg-f5W">
-            <objects>
-                <viewController id="z3X-Ev-lm7" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="yo2-Gt-wKm"/>
-                        <viewControllerLayoutGuide type="bottom" id="19o-Ie-omY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="cXU-so-QTd">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23S-du-DGI">
-                                <rect key="frame" x="277" y="285" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <segue destination="euR-sR-P7S" kind="show" id="65V-BY-Ca3"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="23S-du-DGI" firstAttribute="centerX" secondItem="cXU-so-QTd" secondAttribute="centerX" id="EIw-Zp-GEU"/>
-                            <constraint firstItem="23S-du-DGI" firstAttribute="centerY" secondItem="cXU-so-QTd" secondAttribute="centerY" id="l6T-Px-le8"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="tAS-nr-uIP"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jiK-Lb-1WE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1021" y="-368"/>
+            <point key="canvasLocation" x="1099" y="-368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jfe-TW-Mdh">
@@ -88,7 +56,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="z3X-Ev-lm7" kind="relationship" relationship="rootViewController" id="Nx1-yI-cZP"/>
+                        <segue destination="euR-sR-P7S" kind="relationship" relationship="rootViewController" id="2xv-uQ-NIJ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="czg-Qi-mg5" userLabel="First Responder" sceneMemberID="firstResponder"/>
