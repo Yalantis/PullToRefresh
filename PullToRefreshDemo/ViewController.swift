@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-//        tableView.removePullToRefresh(tableView.pullToRefresh!)
+        tableView.removePullToRefresh(tableView.pullToRefresh!)
     }
     
     @IBAction private func startRefreshing() {
