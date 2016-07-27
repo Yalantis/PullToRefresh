@@ -69,14 +69,19 @@ public class PullToRefresh: NSObject {
                     action?()
                 }
             case .Finished:
-                removeScrollViewObserving()
-                UIView.animateWithDuration(1, delay: hideDelay, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
+                if isCurrentlyVisible() {
+                    removeScrollViewObserving()
+                    UIView.animateWithDuration(1, delay: hideDelay, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveLinear, animations: {
+                        self.scrollView?.contentInset = self.scrollViewDefaultInsets
+                        self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
+                        }, completion: { finished in
+                            self.addScrollViewObserving()
+                            self.state = .Inital
+                    })
+                } else {
                     self.scrollView?.contentInset = self.scrollViewDefaultInsets
-                    self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
-                }, completion: { finished in
-                    self.addScrollViewObserving()
                     self.state = .Inital
-                })
+                }
             default: break
             }
         }
@@ -149,6 +154,13 @@ public class PullToRefresh: NSObject {
             state = .Finished
         }
     }
+    
+    // MARK: - Helpers
+    
+    func isCurrentlyVisible() -> Bool {
+        return self.scrollView?.contentOffset.y <= -self.scrollViewDefaultInsets.top
+    }
+    
 }
 
 // MARK: - State enumeration
