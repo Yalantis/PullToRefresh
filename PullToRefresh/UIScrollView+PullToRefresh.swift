@@ -10,44 +10,88 @@ import Foundation
 import UIKit
 import ObjectiveC
 
-private var associatedObjectHandle: UInt8 = 0
+private var topPullToRefreshKey: UInt8 = 0
+private var bottomPullToRefreshKey: UInt8 = 0
 
 public extension UIScrollView {
     
-    private(set) var pullToRefresh: PullToRefresh? {
+    private(set) var topPullToRefresh: PullToRefresh? {
         get {
-            return objc_getAssociatedObject(self, &associatedObjectHandle) as? PullToRefresh
+            return objc_getAssociatedObject(self, &topPullToRefreshKey) as? PullToRefresh
         }
         set {
-            objc_setAssociatedObject(self, &associatedObjectHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &topPullToRefreshKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    private(set) var bottomPullToRefresh: PullToRefresh? {
+        get {
+            return objc_getAssociatedObject(self, &bottomPullToRefreshKey) as? PullToRefresh
+        }
+        set {
+            objc_setAssociatedObject(self, &bottomPullToRefreshKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     public func addPullToRefresh(pullToRefresh: PullToRefresh, action: () -> ()) {
-        if let previousPullToRefresh = self.pullToRefresh  {
-            self.removePullToRefresh(previousPullToRefresh)
-        }
-        
         pullToRefresh.scrollView = self
         pullToRefresh.action = action
-        self.pullToRefresh = pullToRefresh
         
+        var originY: CGFloat
         let view = pullToRefresh.refreshView
-        view.frame = CGRectMake(0, -view.frame.size.height, self.frame.size.width, view.frame.size.height)
+        
+        switch pullToRefresh.position {
+        case .Top:
+            if let previousPullToRefresh = self.topPullToRefresh {
+                self.removePullToRefresh(previousPullToRefresh)
+            }
+            
+            self.topPullToRefresh = pullToRefresh
+            originY = -view.frame.size.height
+            
+        case .Bottom:
+            if let previousPullToRefresh = self.bottomPullToRefresh{
+                self.removePullToRefresh(previousPullToRefresh)
+            }
+            self.bottomPullToRefresh = pullToRefresh
+            originY = self.contentSize.height
+        }
+        
+        view.frame = CGRectMake(0, originY, self.frame.size.width, view.frame.size.height)
+        
         addSubview(view)
         sendSubviewToBack(view)
     }
     
     func removePullToRefresh(pullToRefresh: PullToRefresh) {
-        self.pullToRefresh?.refreshView.removeFromSuperview()
-        self.pullToRefresh = nil
+        switch pullToRefresh.position {
+        case .Top:
+            self.topPullToRefresh?.refreshView.removeFromSuperview()
+            self.topPullToRefresh = nil
+            
+        case .Bottom:
+            self.bottomPullToRefresh?.refreshView.removeFromSuperview()
+            self.bottomPullToRefresh = nil
+        }
     }
     
-    func startRefreshing() {
-        pullToRefresh?.startRefreshing()
+    func startRefreshing(at position: Position) {
+        switch position {
+        case .Top:
+            self.topPullToRefresh?.startRefreshing()
+            
+        case .Bottom:
+            self.bottomPullToRefresh?.startRefreshing()
+        }
     }
     
-    func endRefreshing() {
-        pullToRefresh?.endRefreshing()
+    func endRefreshing(at position: Position) {
+        switch position {
+        case .Top:
+            self.topPullToRefresh?.endRefreshing()
+            
+        case .Bottom:
+            self.bottomPullToRefresh?.endRefreshing()
+        }
     }
 }
