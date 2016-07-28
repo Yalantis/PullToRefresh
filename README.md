@@ -13,7 +13,7 @@ This component implements pure pull-to-refresh logic and you can use it for deve
 
 ```ruby
 use_frameworks!
-pod 'PullToRefresher', '~> 1.0'
+pod 'PullToRefresher', '~> 1.4.0'
 ```
 
 ##Usage
