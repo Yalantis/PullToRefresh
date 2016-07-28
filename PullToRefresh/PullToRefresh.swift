@@ -16,7 +16,12 @@ public enum Position {
 public class PullToRefresh: NSObject {
     
     public var position: Position = .Top
+    
+    public var animationDuration: NSTimeInterval = 1
     public var hideDelay: NSTimeInterval = 0
+    public var springDamping: CGFloat = 0.4
+    public var initialSpringVelocity: CGFloat = 0.8
+    public var animationOptions: UIViewAnimationOptions = [.CurveLinear]
 
     let refreshView: UIView
     var action: (() -> ())?
@@ -209,14 +214,20 @@ private extension PullToRefresh {
     
     func animateFinishedState() {
         removeScrollViewObserving()
-        UIView.animateWithDuration(1, delay: hideDelay, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.8, options: .CurveLinear, animations: {
-            self.scrollView?.contentInset = self.scrollViewDefaultInsets
-            if case .Top = self.position {
-                self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
-            }
-        }, completion: { finished in
-            self.addScrollViewObserving()
-            self.state = .Initial
+        UIView.animateWithDuration(
+            animationDuration,
+            delay: hideDelay,
+            usingSpringWithDamping: springDamping,
+            initialSpringVelocity: initialSpringVelocity,
+            options: animationOptions,
+            animations: {
+                self.scrollView?.contentInset = self.scrollViewDefaultInsets
+                if case .Top = self.position {
+                    self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
+                }
+            }, completion: { finished in
+                self.addScrollViewObserving()
+                self.state = .Initial
         })
     }
 }
