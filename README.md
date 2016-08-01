@@ -38,6 +38,15 @@ tableView.addPullToRefresh(refresher, action: {
 })
 ```
 
+⚠️ Don't forget to remove pull to refresh when your view controller is releasing. ⚠️
+
+```swift
+    deinit {
+        tableView.removePullToRefresh(tableView.topPullToRefresh!)
+    }
+```
+
+
 After the action is completed and you want to hide the refresher:
 
 ```swift

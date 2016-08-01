@@ -16,15 +16,13 @@ class ViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     private var dataSourceCount = PageSize
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         setupPullToRefresh()
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
+    deinit {
         tableView.removePullToRefresh(tableView.bottomPullToRefresh!)
         tableView.removePullToRefresh(tableView.topPullToRefresh!)
     }
@@ -37,26 +35,20 @@ class ViewController: UIViewController {
 private extension ViewController {
     
     func setupPullToRefresh () {
-        
-        
         tableView.addPullToRefresh(PullToRefresh()) { [weak self] in
             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self?.dataSourceCount = PageSize
-                    self?.tableView.endRefreshing(at: .Top)
-                }
+                self?.dataSourceCount = PageSize
+                self?.tableView.endRefreshing(at: .Top)
             }
         }
-
+        
         tableView.addPullToRefresh(PullToRefresh(position: .Bottom)) { [weak self] in
             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
-                dispatch_async(dispatch_get_main_queue()) {
                 self?.dataSourceCount += PageSize
                 self?.tableView.reloadData()
                 self?.tableView.endRefreshing(at: .Bottom)
-                }
             }
         }
     }
