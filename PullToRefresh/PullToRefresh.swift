@@ -47,7 +47,7 @@ public class PullToRefresh: NSObject {
     
     // MARK: - State
     
-    private (set) var state: State = .Initial {
+    public private(set) var state: State = .Initial {
         didSet {
             animator.animateState(state)
             switch state {
