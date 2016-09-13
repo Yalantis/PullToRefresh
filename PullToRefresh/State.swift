@@ -10,27 +10,27 @@ import Foundation
 
 public enum State: Equatable, CustomStringConvertible {
     
-    case Initial
-    case Releasing(progress: CGFloat)
-    case Loading
-    case Finished
+    case initial
+    case releasing(progress: CGFloat)
+    case loading
+    case finished
     
     public var description: String {
         switch self {
-        case .Initial: return "Inital"
-        case .Releasing(let progress): return "Releasing:\(progress)"
-        case .Loading: return "Loading"
-        case .Finished: return "Finished"
+        case .initial: return "Inital"
+        case .releasing(let progress): return "Releasing:\(progress)"
+        case .loading: return "Loading"
+        case .finished: return "Finished"
         }
     }
 }
 
 public func ==(a: State, b: State) -> Bool {
     switch (a, b) {
-    case (.Initial, .Initial): return true
-    case (.Loading, .Loading): return true
-    case (.Finished, .Finished): return true
-    case (.Releasing, .Releasing): return true
+    case (.initial, .initial): return true
+    case (.loading, .loading): return true
+    case (.finished, .finished): return true
+    case (.releasing, .releasing): return true
     default: return false
     }
 }
