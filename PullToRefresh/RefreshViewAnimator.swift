@@ -10,5 +10,5 @@ import Foundation
 
 public protocol RefreshViewAnimator {
     
-    func animateState(_ state: State)
+    func animate(_ state: State)
 }

@@ -34,7 +34,7 @@ class ViewController: UIViewController {
 
 private extension ViewController {
     
-    func setupPullToRefresh () {
+    func setupPullToRefresh() {
         tableView.addPullToRefresh(PullToRefresh()) { [weak self] in
             let delayTime = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
@@ -54,7 +54,7 @@ private extension ViewController {
     }
 }
 
-extension ViewController:UITableViewDataSource {
+extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSourceCount

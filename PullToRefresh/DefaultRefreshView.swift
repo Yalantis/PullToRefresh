@@ -10,39 +10,34 @@ import UIKit
 
 class DefaultRefreshView: UIView {
     
-    fileprivate(set) var activityIndicator: UIActivityIndicatorView?
+    fileprivate(set) lazy var activityIndicator: UIActivityIndicatorView! = {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        self.addSubview(activityIndicator)
+        return activityIndicator
+    }()
 
     override func layoutSubviews() {
-        if activityIndicator == nil {
-            activityIndicator = {
-                let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-                activityIndicator.hidesWhenStopped = true
-                addSubview(activityIndicator)
-                return activityIndicator
-            }()
-        }
         centerActivityIndicator()
-        setupFrameInSuperview(superview)
+        setupFrame(in: superview)
+        
         super.layoutSubviews()
     }
     
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
-        setupFrameInSuperview(superview)
+        setupFrame(in: superview)
     }
 }
 
 private extension DefaultRefreshView {
     
-    func setupFrameInSuperview(_ newSuperview: UIView?) {
-        if let superview = newSuperview {
-            frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: superview.frame.width, height: frame.height)
-        }
+    func setupFrame(in newSuperview: UIView?) {
+        guard let superview = newSuperview else { return }
+
+        frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: superview.frame.width, height: frame.height)
     }
     
      func centerActivityIndicator() {
-        if let activityIndicator = activityIndicator {
-            activityIndicator.center = convert(center, from: superview)
-        }
+        activityIndicator.center = convert(center, from: superview)
     }
 }

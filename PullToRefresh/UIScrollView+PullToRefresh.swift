@@ -42,22 +42,23 @@ public extension UIScrollView {
         
         switch pullToRefresh.position {
         case .top:
-            if let previousPullToRefresh = self.topPullToRefresh {
-                self.removePullToRefresh(previousPullToRefresh)
+            if let previousPullToRefresh = topPullToRefresh {
+                removePullToRefresh(previousPullToRefresh)
             }
             
-            self.topPullToRefresh = pullToRefresh
+            topPullToRefresh = pullToRefresh
             originY = -view.frame.size.height
             
         case .bottom:
-            if let previousPullToRefresh = self.bottomPullToRefresh{
-                self.removePullToRefresh(previousPullToRefresh)
+            if let previousPullToRefresh = bottomPullToRefresh{
+                removePullToRefresh(previousPullToRefresh)
             }
-            self.bottomPullToRefresh = pullToRefresh
-            originY = self.contentSize.height
+            
+            bottomPullToRefresh = pullToRefresh
+            originY = contentSize.height
         }
         
-        view.frame = CGRect(x: 0, y: originY, width: self.frame.size.width, height: view.frame.size.height)
+        view.frame = CGRect(x: 0, y: originY, width: frame.width, height: view.frame.height)
         
         addSubview(view)
         sendSubview(toBack: view)
@@ -66,32 +67,32 @@ public extension UIScrollView {
     func removePullToRefresh(_ pullToRefresh: PullToRefresh) {
         switch pullToRefresh.position {
         case .top:
-            self.topPullToRefresh?.refreshView.removeFromSuperview()
-            self.topPullToRefresh = nil
+            topPullToRefresh?.refreshView.removeFromSuperview()
+            topPullToRefresh = nil
             
         case .bottom:
-            self.bottomPullToRefresh?.refreshView.removeFromSuperview()
-            self.bottomPullToRefresh = nil
+            bottomPullToRefresh?.refreshView.removeFromSuperview()
+            bottomPullToRefresh = nil
         }
     }
     
     func startRefreshing(at position: Position) {
         switch position {
         case .top:
-            self.topPullToRefresh?.startRefreshing()
+            topPullToRefresh?.startRefreshing()
             
         case .bottom:
-            self.bottomPullToRefresh?.startRefreshing()
+            bottomPullToRefresh?.startRefreshing()
         }
     }
     
     func endRefreshing(at position: Position) {
         switch position {
         case .top:
-            self.topPullToRefresh?.endRefreshing()
+            topPullToRefresh?.endRefreshing()
             
         case .bottom:
-            self.bottomPullToRefresh?.endRefreshing()
+            bottomPullToRefresh?.endRefreshing()
         }
     }
 }
