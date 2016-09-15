@@ -10,39 +10,34 @@ import UIKit
 
 class DefaultRefreshView: UIView {
     
-    private(set) var activityIndicator: UIActivityIndicatorView?
+    fileprivate(set) lazy var activityIndicator: UIActivityIndicatorView! = {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        self.addSubview(activityIndicator)
+        return activityIndicator
+    }()
 
     override func layoutSubviews() {
-        if activityIndicator == nil {
-            activityIndicator = {
-                let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-                activityIndicator.hidesWhenStopped = true
-                addSubview(activityIndicator)
-                return activityIndicator
-            }()
-        }
         centerActivityIndicator()
-        setupFrameInSuperview(superview)
+        setupFrame(in: superview)
+        
         super.layoutSubviews()
     }
     
-    override func willMoveToSuperview(newSuperview: UIView?) {
-        super.willMoveToSuperview(newSuperview)
-        setupFrameInSuperview(superview)
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        setupFrame(in: superview)
     }
 }
 
 private extension DefaultRefreshView {
     
-    func setupFrameInSuperview(newSuperview: UIView?) {
-        if let superview = newSuperview {
-            frame = CGRectMake(frame.origin.x, frame.origin.y, superview.frame.width, frame.height)
-        }
+    func setupFrame(in newSuperview: UIView?) {
+        guard let superview = newSuperview else { return }
+
+        frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: superview.frame.width, height: frame.height)
     }
     
      func centerActivityIndicator() {
-        if let activityIndicator = activityIndicator {
-            activityIndicator.center = convertPoint(center, fromView: superview)
-        }
+        activityIndicator.center = convert(center, from: superview)
     }
 }

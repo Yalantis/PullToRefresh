@@ -5,15 +5,16 @@ This component implements pure pull-to-refresh logic and you can use it for deve
 [![Yalantis](https://raw.githubusercontent.com/Yalantis/PullToRefresh/develop/PullToRefreshDemo/Resources/badge_dark.png)](https://yalantis.com/?utm_source=github)
 
 ##Requirements
+
 - iOS 8.0+
-- Xcode 7
-- Swift 2
+- Swift 3 (v. 2.0+)
+- Swift 2 (v. 1.4)
 
 ##Installing with [CocoaPods](https://cocoapods.org)
 
 ```ruby
 use_frameworks!
-pod 'PullToRefresher', '~> 1.4.0'
+pod 'PullToRefresher', '~> 2.0'
 ```
 
 ##Usage
@@ -33,9 +34,9 @@ let refresher = PullToRefresh()
 It will create a default pull-to-refresh with a simple view which has single *UIActivitiIndicatorView*. To add refresher to your *UIScrollView* subclass:
 
 ```swift
-tableView.addPullToRefresh(refresher, action: {
+tableView.addPullToRefresh(refresher) {
     // action to be performed (pull data from some source)
-})
+}
 ```
 
 ⚠️ Don't forget to remove pull to refresh when your view controller is releasing. ⚠️
@@ -45,7 +46,6 @@ tableView.addPullToRefresh(refresher, action: {
         tableView.removePullToRefresh(tableView.topPullToRefresh!)
     }
 ```
-
 
 After the action is completed and you want to hide the refresher:
 
@@ -72,6 +72,7 @@ To create a custom refresher you would need to initialize *PullToRefresh* class 
 ```swift
 let awesomeRefrehser = PullToRefresh(refresherView: yourView, animator: yourAnimator)
 ```
+
 ###Steps for creating custom PullToRefresh
 
 1) Create a custom *UIView* with *.xib and add all images that you want to animate as subviews. Pin them with outlets:
