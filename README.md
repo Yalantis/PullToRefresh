@@ -42,9 +42,9 @@ tableView.addPullToRefresh(refresher) {
 ⚠️ Don't forget to remove pull to refresh when your view controller is releasing. ⚠️
 
 ```swift
-    deinit {
-        tableView.removePullToRefresh(tableView.topPullToRefresh!)
-    }
+deinit {
+tableView.removePullToRefresh(tableView.topPullToRefresh!)
+}
 ```
 
 After the action is completed and you want to hide the refresher:
@@ -79,8 +79,8 @@ let awesomeRefrehser = PullToRefresh(refresherView: yourView, animator: yourAnim
 
 ```swift
 class RefreshView: UIView {
-    @IBOutlet
-    private var imageView: UIImageView!
+
+    @IBOutlet private var imageView: UIImageView!
   
     // and others
 }
@@ -90,13 +90,14 @@ class RefreshView: UIView {
 
 ```swift
 class Animator: RefreshViewAnimator {
+
     private let refreshView: RefreshView
     
     init(refreshView: RefreshView) {
         self.refreshView = refreshView
     }
 
-    func animateState(state: State) {
+    func animate(state: State) {
         // animate refreshView according to state
     }
 }
@@ -105,9 +106,12 @@ class Animator: RefreshViewAnimator {
 3) According to RefreshViewAnimator protocol, your animator should implement *animateState* method. This method is get called by *PullToRefresh* object every time its state is changed. There are four states:
 
 ```swift
-enum State:Equatable {
-    case Inital, Loading, Finished
-    case Releasing(progress: double)
+public enum State: Equatable, CustomStringConvertible {
+    
+    case initial
+    case releasing(progress: CGFloat)
+    case loading
+    case finished
 }
 ```
 
@@ -119,12 +123,12 @@ enum State:Equatable {
 Depending on the state that your animator gets from the *PullToRefresh*, it has to animate elements in *refreshView*:
 
 ```swift
-func animateState(state: State) {
+func animate(state: State) {
     switch state {
-      case .Inital: // do inital layout for elements
-      case .Releasing(let progress): // animate elements according to progress
-      case .Loading: // start loading animations
-      case .Finished: // show some finished state if needed
+      case .inital: // do inital layout for elements
+      case .releasing(let progress): // animate elements according to progress
+      case .loading: // start loading animations
+      case .finished: // show some finished state if needed
     }
 }
 ```
@@ -135,8 +139,9 @@ Place the magic of animations insted of commented lines.
 
 ```swift
 class AwesomePullToRefresh: PullToRefresh {
+
     convenience init() {
-        let refreshView =  NSBundle.mainBundle().loadNibNamed("RefreshView", owner: nil, options: nil).first as! RefreshView
+        let refreshView = Bundle(for: type(of: self)).loadNibNamed("RefreshView", owner: nil, options: nil)!.first as! RefreshView
         let animator =  Animator(refreshView: refreshView)
         self.init(refreshView: refreshView, animator: animator)
     }
@@ -146,9 +151,9 @@ class AwesomePullToRefresh: PullToRefresh {
 5) Finally, add a refresher to a UIScrollView subclass:
 
 ```swift
-tableView.addPullToRefresh(refresher, action: {
+tableView.addPullToRefresh(refresher) {
     // action to be performed (pull data from some source)
-})
+}
 ```
 
 Have fun! :)
