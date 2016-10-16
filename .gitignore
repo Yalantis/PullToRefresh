@@ -25,3 +25,5 @@ pkg/*
 cpd-output.*
 DerivedData
 build.output
+
+Carthage/Build
