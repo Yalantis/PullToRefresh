@@ -5,15 +5,16 @@ This component implements pure pull-to-refresh logic and you can use it for deve
 [![Yalantis](https://raw.githubusercontent.com/Yalantis/PullToRefresh/develop/PullToRefreshDemo/Resources/badge_dark.png)](https://yalantis.com/?utm_source=github)
 
 ##Requirements
+
 - iOS 8.0+
 - Xcode 7
-- Swift 2
+- Swift 2.3
 
 ##Installing with [CocoaPods](https://cocoapods.org)
 
 ```ruby
 use_frameworks!
-pod 'PullToRefresher', '~> 1.4.0'
+pod 'PullToRefresher', '~> 1.4'
 ```
 
 ##Usage
