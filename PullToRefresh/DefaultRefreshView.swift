@@ -25,6 +25,7 @@ class DefaultRefreshView: UIView {
     
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
+        centerActivityIndicator()
         setupFrame(in: superview)
     }
 }
