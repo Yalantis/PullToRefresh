@@ -70,7 +70,7 @@ To create a custom refresher you would need to initialize *PullToRefresh* class 
 - **animator** is an object which will animate elements on refreshView depending on the state of PullToRefresh.
 
 ```swift
-let awesomeRefrehser = PullToRefresh(refresherView: yourView, animator: yourAnimator)
+let awesomeRefresher = PullToRefresh(refresherView: yourView, animator: yourAnimator)
 ```
 
 ###Steps for creating custom PullToRefresh
@@ -125,7 +125,7 @@ Depending on the state that your animator gets from the *PullToRefresh*, it has 
 ```swift
 func animate(state: State) {
     switch state {
-      case .inital: // do inital layout for elements
+      case .initial: // do inital layout for elements
       case .releasing(let progress): // animate elements according to progress
       case .loading: // start loading animations
       case .finished: // show some finished state if needed
@@ -142,7 +142,7 @@ class AwesomePullToRefresh: PullToRefresh {
 
     convenience init() {
         let refreshView = Bundle(for: type(of: self)).loadNibNamed("RefreshView", owner: nil, options: nil)!.first as! RefreshView
-        let animator =  Animator(refreshView: refreshView)
+        let animator = Animator(refreshView: refreshView)
         self.init(refreshView: refreshView, animator: animator)
     }
 }
