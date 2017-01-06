@@ -23,8 +23,7 @@ class ViewController: UIViewController {
     }
     
     deinit {
-        tableView.removePullToRefresh(tableView.bottomPullToRefresh!)
-        tableView.removePullToRefresh(tableView.topPullToRefresh!)
+        tableView.removeAllPullToRefresh()
     }
     
     @IBAction fileprivate func startRefreshing() {
