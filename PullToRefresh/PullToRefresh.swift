@@ -78,6 +78,8 @@ open class PullToRefresh: NSObject {
     
     public convenience init(height: CGFloat = 40, position: Position = .top) {
         let refreshView = DefaultRefreshView()
+        refreshView.translatesAutoresizingMaskIntoConstraints = false
+        refreshView.autoresizingMask = [.flexibleWidth]
         refreshView.frame.size.height = height
         self.init(refreshView: refreshView, animator: DefaultViewAnimator(refreshView: refreshView), height: height, position: position)
     }
