@@ -34,3 +34,5 @@ public func ==(a: State, b: State) -> Bool {
     default: return false
     }
 }
+
+public typealias PullToRefreshState = State
