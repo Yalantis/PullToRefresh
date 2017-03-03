@@ -42,17 +42,13 @@ public extension UIScrollView {
         
         switch pullToRefresh.position {
         case .top:
-            if let previousPullToRefresh = topPullToRefresh {
-                removePullToRefresh(previousPullToRefresh)
-            }
+            removePullToRefresh(at: .top)
             
             topPullToRefresh = pullToRefresh
             originY = -view.frame.size.height
             
         case .bottom:
-            if let previousPullToRefresh = bottomPullToRefresh{
-                removePullToRefresh(previousPullToRefresh)
-            }
+            removePullToRefresh(at: .bottom)
             
             bottomPullToRefresh = pullToRefresh
             originY = contentSize.height
@@ -64,8 +60,8 @@ public extension UIScrollView {
         sendSubview(toBack: view)
     }
     
-    func removePullToRefresh(_ pullToRefresh: PullToRefresh) {
-        switch pullToRefresh.position {
+    func removePullToRefresh(at position: Position) {
+        switch position {
         case .top:
             topPullToRefresh?.refreshView.removeFromSuperview()
             topPullToRefresh = nil
@@ -74,6 +70,11 @@ public extension UIScrollView {
             bottomPullToRefresh?.refreshView.removeFromSuperview()
             bottomPullToRefresh = nil
         }
+    }
+    
+    func removeAllPullToRefresh() {
+        removePullToRefresh(at: .top)
+        removePullToRefresh(at: .bottom)
     }
     
     func startRefreshing(at position: Position) {
@@ -94,5 +95,10 @@ public extension UIScrollView {
         case .bottom:
             bottomPullToRefresh?.endRefreshing()
         }
+    }
+    
+    func endAllRefreshing() {
+        endRefreshing(at: .top)
+        endRefreshing(at: .bottom)
     }
 }
