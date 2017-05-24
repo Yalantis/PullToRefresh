@@ -257,6 +257,6 @@ private extension PullToRefresh {
     func isCurrentlyVisible() -> Bool {
         guard let scrollView = scrollView else { return false }
         
-        return scrollView.contentOffset.y <= -scrollViewDefaultInsets.top
+        return scrollView.contentOffset.y <= -scrollViewDefaultInsets.top || scrollView.contentOffset.y + scrollView.frame.size.height >= scrollView.contentSize.height + scrollViewDefaultInsets.bottom
     }
 }
