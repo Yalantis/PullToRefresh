@@ -54,7 +54,7 @@ public extension UIScrollView {
             originY = contentSize.height
         }
         
-        view.frame = CGRect(x: 0, y: originY, width: frame.width, height: view.frame.height)
+        view.frame = CGRect(x: 0, y: originY, width: UIScreen.main.bounds.size.width, height: view.frame.height)
         
         addSubview(view)
         sendSubview(toBack: view)
