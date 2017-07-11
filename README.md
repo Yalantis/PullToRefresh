@@ -4,20 +4,20 @@ This component implements pure pull-to-refresh logic and you can use it for deve
 
 [![Yalantis](https://raw.githubusercontent.com/Yalantis/PullToRefresh/develop/PullToRefreshDemo/Resources/badge_dark.png)](https://yalantis.com/?utm_source=github)
 
-##Requirements
+## Requirements
 
 - iOS 8.0+
 - Swift 3 (v. 2.0+)
 - Swift 2 (v. 1.4)
 
-##Installing with [CocoaPods](https://cocoapods.org)
+## Installing with [CocoaPods](https://cocoapods.org)
 
 ```ruby
 use_frameworks!
 pod 'PullToRefresher', '~> 2.0'
 ```
 
-##Usage
+## Usage
 
 At first, import PullToRefresh:
 
@@ -62,7 +62,7 @@ tableView.startRefreshing()
 But you probably won’t use this component, though. *UITableViewController* and *UICollectionViewController* already have a simple type of refresher.
 It’s much more interesting to develop your own pull-to-refresh control.
 
-##Creating custom PullToRefresh
+## Creating custom PullToRefresh
 
 To create a custom refresher you would need to initialize *PullToRefresh* class with two objects:
 
@@ -73,7 +73,7 @@ To create a custom refresher you would need to initialize *PullToRefresh* class 
 let awesomeRefresher = PullToRefresh(refresherView: yourView, animator: yourAnimator)
 ```
 
-###Steps for creating custom PullToRefresh
+### Steps for creating custom PullToRefresh
 
 1) Create a custom *UIView* with *.xib and add all images that you want to animate as subviews. Pin them with outlets:
 
