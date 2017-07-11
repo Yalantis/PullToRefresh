@@ -12,7 +12,7 @@ public enum State: Equatable, CustomStringConvertible {
     
     case initial
     case releasing(progress: CGFloat)
-    case loading
+    case loading(userInitiated: Bool)
     case finished
     
     public var description: String {

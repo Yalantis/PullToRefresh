@@ -33,7 +33,7 @@ public extension UIScrollView {
         }
     }
     
-    public func addPullToRefresh(_ pullToRefresh: PullToRefresh, action: @escaping () -> ()) {
+    public func addPullToRefresh(_ pullToRefresh: PullToRefresh, action: @escaping PullToRefresh.ActionType) {
         pullToRefresh.scrollView = self
         pullToRefresh.action = action
         

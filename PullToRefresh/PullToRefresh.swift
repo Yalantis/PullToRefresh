@@ -15,6 +15,8 @@ public enum Position {
 
 open class PullToRefresh: NSObject {
     
+    public typealias ActionType = ((_ userInitiated: Bool) -> ())
+    
     open var position: Position = .top
     
     open var animationDuration: TimeInterval = 1
@@ -22,9 +24,10 @@ open class PullToRefresh: NSObject {
     open var springDamping: CGFloat = 0.4
     open var initialSpringVelocity: CGFloat = 0.8
     open var animationOptions: UIViewAnimationOptions = [.curveLinear]
-
+    open var refreshViewHeight: CGFloat = 0
+    
     let refreshView: UIView
-    var action: (() -> ())?
+    var action: ActionType?
     
     fileprivate var isObserving = false
     fileprivate let animator: RefreshViewAnimator
@@ -50,9 +53,9 @@ open class PullToRefresh: NSObject {
         didSet {
             animator.animate(state)
             switch state {
-            case .loading:
-                if oldValue != .loading {
-                    animateLoadingState()
+            case .loading(let userInitiated):
+                if oldValue != .loading(userInitiated: false) {
+                    animateLoadingState(userInitiated: userInitiated)
                 }
                 
             case .finished:
@@ -72,6 +75,7 @@ open class PullToRefresh: NSObject {
     
     public init(refreshView: UIView, animator: RefreshViewAnimator, height: CGFloat, position: Position) {
         self.refreshView = refreshView
+        self.refreshViewHeight = height
         self.animator = animator
         self.position = position
     }
@@ -113,14 +117,14 @@ open class PullToRefresh: NSObject {
             let refreshViewHeight = refreshView.frame.size.height
             
             switch offset {
-            case 0 where (state != .loading): state = .initial
-            case -refreshViewHeight...0 where (state != .loading && state != .finished):
+            case 0 where (state != .loading(userInitiated: false)): state = .initial
+            case -refreshViewHeight...0 where (state != .loading(userInitiated: false) && state != .finished):
                 state = .releasing(progress: -offset / refreshViewHeight)
                 
             case -1000...(-refreshViewHeight):
                 if state == .releasing(progress: 1) && scrollView?.isDragging == false {
-                    state = .loading
-                } else if state != .loading && state != .finished {
+                    state = .loading(userInitiated: true)
+                } else if state != .loading(userInitiated: false) && state != .finished {
                     state = .releasing(progress: 1)
                 }
             default: break
@@ -186,12 +190,12 @@ extension PullToRefresh {
         scrollView?.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
         let delayTime = DispatchTime.now() + Double(Int64(0.27 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delayTime) { [weak self] in
-            self?.state = .loading
+            self?.state = .loading(userInitiated: false)
         }
     }
     
     func endRefreshing() {
-        if state == .loading {
+        if state == .loading(userInitiated: false) {
             state = .finished
         }
     }
@@ -200,7 +204,7 @@ extension PullToRefresh {
 // MARK: - Animate scroll view
 private extension PullToRefresh {
     
-    func animateLoadingState() {
+    func animateLoadingState(userInitiated: Bool) {
         guard let scrollView = scrollView else {
             return
         }
@@ -226,7 +230,7 @@ private extension PullToRefresh {
             }
         )
         
-        action?()
+        action?(userInitiated)
     }
     
     func animateFinishedState() {
