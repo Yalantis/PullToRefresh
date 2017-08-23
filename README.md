@@ -10,11 +10,16 @@ This component implements pure pull-to-refresh logic and you can use it for deve
 - Swift 3 (v. 2.0+)
 - Swift 2 (v. 1.4)
 
-## Installing with [CocoaPods](https://cocoapods.org)
+## Installing
 
+### with [CocoaPods](https://cocoapods.org)
 ```ruby
 use_frameworks!
 pod 'PullToRefresher', '~> 2.0'
+```
+### with [Carthage](https://github.com/Carthage/Carthage)
+```ruby
+github "Yalantis/PullToRefresh"
 ```
 
 ## Usage
