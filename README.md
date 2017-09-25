@@ -156,6 +156,23 @@ tableView.addPullToRefresh(refresher) {
 }
 ```
 
+6) If used inside a UITableViewController with a UINavigationController:
+
+Inside your subclass of UITableViewController, add:
+```swift
+self.automaticallyAdjustsScrollViewInsets = false
+self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+```
+
+And set the navigationControllerHeight property like so:
+```swift
+
+# Instantiated as awesomeRefresher here...
+
+awesomeRefresher.navigationControllerHeight = (self.navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height
+```
+
 Have fun! :)
 
 ## Let us know!
