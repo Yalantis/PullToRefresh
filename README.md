@@ -168,7 +168,7 @@ self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
 And set the navigationControllerHeight property like so:
 ```swift
 
-# Instantiated as awesomeRefresher here...
+// Instantiated as awesomeRefresher here...
 
 awesomeRefresher.navigationControllerHeight = (self.navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height
 ```
