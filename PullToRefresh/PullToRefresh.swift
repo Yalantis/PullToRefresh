@@ -178,7 +178,7 @@ extension PullToRefresh {
         var offsetY: CGFloat
         switch position {
         case .top:
-            offsetY = -refreshView.frame.height - scrollViewDefaultInsets.top
+            offsetY = -refreshView.frame.height - scrollViewDefaultInsets.top - navigationControllerHeight
             
         case .bottom:
             offsetY = scrollView!.contentSize.height + refreshView.frame.height + scrollViewDefaultInsets.bottom - scrollView!.bounds.height
@@ -258,6 +258,6 @@ private extension PullToRefresh {
     func isCurrentlyVisible() -> Bool {
         guard let scrollView = scrollView else { return false }
         
-        return scrollView.contentOffset.y <= -scrollViewDefaultInsets.top
+        return scrollView.contentOffset.y <= -(scrollViewDefaultInsets.top + self.navigationControllerHeight)
     }
 }
