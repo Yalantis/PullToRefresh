@@ -158,19 +158,22 @@ tableView.addPullToRefresh(refresher) {
 
 6) If used inside a UITableViewController with a UINavigationController:
 
-Inside your subclass of UITableViewController, add:
+Inside your subclass of UITableViewController, add this code and define your insets. UIEdgeInsets are handled differently in iOS 11 and than before, so we need this check:
 ```swift
 self.automaticallyAdjustsScrollViewInsets = false
-self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-```
 
-And set the navigationControllerHeight property like so:
-```swift
+if #available(iOS 11.0, *) {
+    awesomeRefresher.navigationControllerHeight = (self.navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height
 
-// Instantiated as awesomeRefresher here...
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
 
-awesomeRefresher.navigationControllerHeight = (self.navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height
+} else {
+
+    self.tableView.contentInset = UIEdgeInsetsMake(64, 0, 49, 0) // Here you should define your insets. 64 top and 49 bottom are default
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 49, 0)
+
+}
 ```
 
 Have fun! :)
