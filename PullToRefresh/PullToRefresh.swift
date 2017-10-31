@@ -20,6 +20,7 @@ open class PullToRefresh: NSObject {
     open var animationDuration: TimeInterval = 1
     open var hideDelay: TimeInterval = 0
     open var springDamping: CGFloat = 0.4
+    open var navigationControllerHeight : CGFloat = 0
     open var initialSpringVelocity: CGFloat = 0.8
     open var animationOptions: UIViewAnimationOptions = [.curveLinear]
 
@@ -101,7 +102,7 @@ open class PullToRefresh: NSObject {
             var offset: CGFloat
             switch position {
             case .top:
-                offset = previousScrollViewOffset.y + scrollViewDefaultInsets.top
+                offset = previousScrollViewOffset.y + scrollViewDefaultInsets.top + navigationControllerHeight
                 
             case .bottom:
                 if scrollView!.contentSize.height > scrollView!.bounds.height {
@@ -177,7 +178,7 @@ extension PullToRefresh {
         var offsetY: CGFloat
         switch position {
         case .top:
-            offsetY = -refreshView.frame.height - scrollViewDefaultInsets.top
+            offsetY = -refreshView.frame.height - scrollViewDefaultInsets.top - navigationControllerHeight
             
         case .bottom:
             offsetY = scrollView!.contentSize.height + refreshView.frame.height + scrollViewDefaultInsets.bottom - scrollView!.bounds.height
@@ -240,7 +241,7 @@ private extension PullToRefresh {
             animations: {
                 self.scrollView?.contentInset = self.scrollViewDefaultInsets
                 if case .top = self.position {
-                    self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
+                    self.scrollView?.contentOffset.y = -(self.scrollViewDefaultInsets.top + self.navigationControllerHeight)
                 }
             },
             completion: { _ in
@@ -257,6 +258,6 @@ private extension PullToRefresh {
     func isCurrentlyVisible() -> Bool {
         guard let scrollView = scrollView else { return false }
         
-        return scrollView.contentOffset.y <= -scrollViewDefaultInsets.top
+        return scrollView.contentOffset.y <= -(scrollViewDefaultInsets.top + self.navigationControllerHeight)
     }
 }
