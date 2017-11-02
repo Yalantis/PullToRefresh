@@ -102,3 +102,80 @@ public extension UIScrollView {
         endRefreshing(at: .bottom)
     }
 }
+
+private var topPullToRefreshInsetsHandlerKey: UInt8 = 0
+private var bottomPullToRefreshInsetsHandlerKey: UInt8 = 0
+private var implementationSwapedKey: UInt8 = 0
+
+@available(iOS 11.0, *)
+extension UIScrollView {
+    
+    private var topPullToRefreshInsetsHandler: ((UIEdgeInsets) -> Void)? {
+        get {
+            return objc_getAssociatedObject(self, &topPullToRefreshInsetsHandlerKey) as? ((UIEdgeInsets) -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &topPullToRefreshInsetsHandlerKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+    
+    private var bottomPullToRefreshInsetsHandler: ((UIEdgeInsets) -> Void)? {
+        get {
+            return objc_getAssociatedObject(self, &bottomPullToRefreshInsetsHandlerKey) as? ((UIEdgeInsets) -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &bottomPullToRefreshInsetsHandlerKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+    
+    private var isImplementationSwaped: Bool {
+        get{
+            return objc_getAssociatedObject(self, &implementationSwapedKey) as? Bool ?? false
+        }
+        set{
+             objc_setAssociatedObject(self, &implementationSwapedKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+    
+    internal func addAdjustedContentInsetsHandler(forPosition position: Position, handler: @escaping ((UIEdgeInsets) -> Void)) {
+        switch position {
+        case .top:
+            topPullToRefreshInsetsHandler = handler
+        case .bottom:
+            bottomPullToRefreshInsetsHandler = handler
+        }
+        if !isImplementationSwaped {
+            swapAdjustedContentInsetDidChangeImplementation()
+            isImplementationSwaped = true
+        }
+    }
+    
+    private func swapAdjustedContentInsetDidChangeImplementation() {
+        let originalSelector = #selector(adjustedContentInsetDidChange)
+        let swizzledSelector = #selector(patchedAdjustedContentInsetDidChange)
+        
+        if let originalMethod = class_getInstanceMethod(UIScrollView.self, originalSelector),
+           let swizzledMethod = class_getInstanceMethod(UIScrollView.self, swizzledSelector) {
+           method_exchangeImplementations(originalMethod, swizzledMethod)
+        }
+    }
+    
+    internal func removeAdjustedContentInsetsHandler(forPosition position: Position) {
+        switch position {
+        case .top:
+            topPullToRefreshInsetsHandler = nil
+        case .bottom:
+            bottomPullToRefreshInsetsHandler = nil
+        }
+        if topPullToRefreshInsetsHandler == nil && bottomPullToRefreshInsetsHandler == nil {
+            swapAdjustedContentInsetDidChangeImplementation()
+            isImplementationSwaped = false
+        }
+    }
+    
+    @objc internal func patchedAdjustedContentInsetDidChange() {
+        topPullToRefreshInsetsHandler?(adjustedContentInset)
+        bottomPullToRefreshInsetsHandler?(adjustedContentInset)
+        patchedAdjustedContentInsetDidChange()
+    }
+}
