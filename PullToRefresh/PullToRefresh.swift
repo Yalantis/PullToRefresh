@@ -22,7 +22,14 @@ open class PullToRefresh: NSObject {
     open var springDamping: CGFloat = 0.4
     open var initialSpringVelocity: CGFloat = 0.8
     open var animationOptions: UIViewAnimationOptions = [.curveLinear]
-
+    open var alwaysVisible: Bool = false {
+        willSet{
+            if alwaysVisible {
+                sendRefreshViewToScrollView()
+            }
+        }
+    }
+    
     let refreshView: UIView
     var action: (() -> ())?
     
@@ -58,6 +65,15 @@ open class PullToRefresh: NSObject {
     // MARK: - State
 
     open fileprivate(set) var state: State = .initial {
+        willSet{
+            switch newValue {
+            case .finished:
+                if alwaysVisible {
+                    sendRefreshViewToScrollView()
+                }
+            default: break
+            }
+        }
         didSet {
             animator.animate(state)
             switch state {
@@ -242,6 +258,9 @@ private extension PullToRefresh {
             },
             completion: { _ in
                 scrollView.bounces = true
+                if self.alwaysVisible {
+                    self.bringRefreshViewToSuperview()
+                }
             }
         )
         
@@ -286,4 +305,22 @@ private extension PullToRefresh {
         
         return scrollView.contentOffset.y <= -defaultInsets.top
     }
+    
+    func bringRefreshViewToSuperview() {
+        guard let scrollView = scrollView, let superView = scrollView.superview else { return }
+        guard let scrollViewIndex = superView.subviews.index(of: scrollView) else { return }
+        refreshView.removeFromSuperview()
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        refreshView.frame.origin.y += refreshView.frame.size.height + defaultInsets.top + statusBarHeight
+        superView.insertSubview(refreshView, at: scrollViewIndex + 1)
+    }
+    
+    func sendRefreshViewToScrollView() {
+        refreshView.removeFromSuperview()
+        guard let scrollView = scrollView else { return }
+        scrollView.addSubview(refreshView)
+        refreshView.frame = scrollView.defaultFrame(forPullToRefresh: self)
+        scrollView.sendSubview(toBack: refreshView)
+    }
+    
 }
