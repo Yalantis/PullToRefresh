@@ -62,6 +62,14 @@ tableView.startRefreshing()
 But you probably won’t use this component, though. *UITableViewController* and *UICollectionViewController* already have a simple type of refresher.
 It’s much more interesting to develop your own pull-to-refresh control.
 
+## Usage in UITableView with sections
+
+Unfortunaly, *UITableView* with sections doesn’t not supported. But you can resolve this problem by two steps:
+1) Create you own *PullToRefresh* (see below how you can did it)
+2) Set it ```shouldBeVisibleWhileScrolling``` property ```true```. It makes you *PullToRefresh* always visible while you scroll table. 
+
+⚠️ By default, *PullToRefresh* has transparent background. Don’t use it in this case ⚠️
+
 ## Creating custom PullToRefresh
 
 To create a custom refresher you would need to initialize *PullToRefresh* class with two objects:
