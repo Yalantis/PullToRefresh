@@ -33,28 +33,35 @@ public extension UIScrollView {
         }
     }
     
+    internal func defaultFrame(forPullToRefresh pullToRefresh: PullToRefresh) -> CGRect {
+        let view = pullToRefresh.refreshView
+        var originY: CGFloat
+        switch pullToRefresh.position {
+        case .top:
+            originY = -view.frame.size.height
+        case .bottom:
+            originY = contentSize.height
+        }
+        return CGRect(x: 0, y: originY, width: frame.width, height: view.frame.height)
+    }
+    
     public func addPullToRefresh(_ pullToRefresh: PullToRefresh, action: @escaping () -> ()) {
         pullToRefresh.scrollView = self
         pullToRefresh.action = action
         
-        var originY: CGFloat
         let view = pullToRefresh.refreshView
         
         switch pullToRefresh.position {
         case .top:
             removePullToRefresh(at: .top)
-            
             topPullToRefresh = pullToRefresh
-            originY = -view.frame.size.height
             
         case .bottom:
             removePullToRefresh(at: .bottom)
-            
             bottomPullToRefresh = pullToRefresh
-            originY = contentSize.height
         }
         
-        view.frame = CGRect(x: 0, y: originY, width: frame.width, height: view.frame.height)
+        view.frame = defaultFrame(forPullToRefresh: pullToRefresh)
         
         addSubview(view)
         sendSubview(toBack: view)
