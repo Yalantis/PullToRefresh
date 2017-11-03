@@ -22,9 +22,9 @@ open class PullToRefresh: NSObject {
     open var springDamping: CGFloat = 0.4
     open var initialSpringVelocity: CGFloat = 0.8
     open var animationOptions: UIViewAnimationOptions = [.curveLinear]
-    open var alwaysVisible: Bool = false {
+    open var shouldBeVisibleWhileScrolling: Bool = false {
         willSet{
-            if alwaysVisible {
+            if shouldBeVisibleWhileScrolling {
                 sendRefreshViewToScrollView()
             }
         }
@@ -68,7 +68,7 @@ open class PullToRefresh: NSObject {
         willSet{
             switch newValue {
             case .finished:
-                if alwaysVisible {
+                if shouldBeVisibleWhileScrolling {
                     sendRefreshViewToScrollView()
                 }
             default: break
@@ -259,7 +259,7 @@ private extension PullToRefresh {
             },
             completion: { _ in
                 scrollView.bounces = true
-                if self.alwaysVisible {
+                if self.shouldBeVisibleWhileScrolling {
                     self.bringRefreshViewToSuperview()
                 }
             }
