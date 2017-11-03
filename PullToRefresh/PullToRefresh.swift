@@ -310,10 +310,10 @@ private extension PullToRefresh {
     func bringRefreshViewToSuperview() {
         guard let scrollView = scrollView, let superView = scrollView.superview else { return }
         guard let scrollViewIndex = superView.subviews.index(of: scrollView) else { return }
+        let frame = scrollView.convert(refreshView.frame, to: superView)
         refreshView.removeFromSuperview()
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        refreshView.frame.origin.y += refreshView.frame.size.height + defaultInsets.top + statusBarHeight
         superView.insertSubview(refreshView, at: scrollViewIndex + 1)
+        refreshView.frame = frame
     }
     
     func sendRefreshViewToScrollView() {
