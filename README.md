@@ -64,11 +64,11 @@ It’s much more interesting to develop your own pull-to-refresh control.
 
 ## Usage in UITableView with sections
 
-Unfortunaly, *UITableView* with sections doesn’t not supported. But you can resolve this problem by two steps:
-1) Create you own *PullToRefresh* (see below how you can did it)
-2) Set it ```shouldBeVisibleWhileScrolling``` property ```true```. It makes you *PullToRefresh* always visible while you scroll table. 
+Unfortunaly, *UITableView* with sections currently not supported. But you can resolve this problem in two steps:
+1) Create you own *PullToRefresh* (see instructions below).
+2) Set its ```shouldBeVisibleWhileScrolling``` property to ```true```. It makes you PullToRefresh always visible while you're scrolling the table. 
 
-⚠️ By default, *PullToRefresh* has transparent background. Don’t use it in this case ⚠️
+⚠️ By default PullToRefresh has transparent background which leads to unwanted overlapping behavour. ⚠️
 
 ## Creating custom PullToRefresh
 
