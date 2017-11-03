@@ -249,7 +249,8 @@ private extension PullToRefresh {
                 case .top:
                     let insets = self.refreshView.frame.height + self.scrollViewDefaultInsets.top
                     scrollView.contentInset.top = insets
-                    scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: -insets)
+                    let offsetY = self.defaultInsets.top + self.refreshView.frame.height
+                    scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: -offsetY)
                     
                 case .bottom:
                     let insets = self.refreshView.frame.height + self.scrollViewDefaultInsets.bottom
