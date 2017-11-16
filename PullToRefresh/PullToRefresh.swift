@@ -56,6 +56,8 @@ open class PullToRefresh: NSObject {
     fileprivate let animator: RefreshViewAnimator
     fileprivate var isObserving = false
     
+    fileprivate var haveFinished = false
+    
     // MARK: - ScrollView & Observing
     
     fileprivate var scrollViewDefaultInsets: UIEdgeInsets = .zero
@@ -77,9 +79,15 @@ open class PullToRefresh: NSObject {
         didSet {
             animator.animate(state)
             switch state {
-            case .loading:
-                if oldValue != .loading {
-                    animateLoadingState()
+            case .loading(let isDragging):
+                if oldValue != state {
+                    if isDragging == false {
+                        animateLoadingState()
+                        if oldValue == .loading(isDragging: true) {
+                            break//don't perform action twice
+                        }
+                    }
+                    action?()
                 }
                 
             case .finished:
@@ -153,19 +161,26 @@ extension PullToRefresh {
                 }
             }
             let refreshViewHeight = refreshView.frame.size.height
-            
-            switch offset {
-            case 0 where (state != .loading): state = .initial
-            case -refreshViewHeight...0 where (state != .loading && state != .finished):
-                state = .releasing(progress: -offset / refreshViewHeight)
-                
-            case -1000...(-refreshViewHeight):
-                if state == .releasing(progress: 1) && scrollView?.isDragging == false {
-                    state = .loading
-                } else if state != .loading && state != .finished {
-                    state = .releasing(progress: 1)
+            if haveFinished && scrollView?.isDragging == false && (state == .loading(isDragging: false) || state == .loading(isDragging: true)) {
+                haveFinished = false
+                state = .finished
+            } else if state == .loading(isDragging: true) && scrollView?.isDragging == false  {
+                state = .loading(isDragging: false)
+            } else {
+                switch offset {
+                case -5...0 where state != .loading(isDragging: false):
+                    state = .initial
+                case -refreshViewHeight...0 where (state != .finished && state != .loading(isDragging: false) && state != .loading(isDragging: true)):
+                    state = .releasing(progress: -offset / refreshViewHeight)
+                    
+                case -1000...(-refreshViewHeight):
+                    if state == .releasing(progress: 1) {
+                        state = .loading(isDragging: true)
+                    } else if state != .finished && state != .loading(isDragging: false) && state != .loading(isDragging: true) {
+                        state = .releasing(progress: 1)
+                    }
+                default: break
                 }
-            default: break
             }
         } else if (context == &KVO.context && keyPath == KVO.ScrollViewPath.contentSize && object as? UIScrollView == scrollView) {
             if case .bottom = position {
@@ -227,13 +242,18 @@ extension PullToRefresh {
         scrollView?.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
         let delayTime = DispatchTime.now() + Double(Int64(0.27 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delayTime) { [weak self] in
-            self?.state = .loading
+            self?.state = .loading(isDragging: false)
         }
     }
     
     func endRefreshing() {
-        if state == .loading {
-            state = .finished
+        if state == .loading(isDragging: false) || state == .loading(isDragging: true) {
+            if scrollView?.isDragging == false {
+                state = .finished
+                haveFinished = false
+            } else {
+                haveFinished = true
+            }
         }
     }
 }
@@ -270,8 +290,6 @@ private extension PullToRefresh {
                 }
         }
         )
-        
-        action?()
     }
     
     func animateFinishedState() {
