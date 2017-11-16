@@ -110,79 +110,42 @@ public extension UIScrollView {
     }
 }
 
-private var topPullToRefreshInsetsHandlerKey: UInt8 = 0
-private var bottomPullToRefreshInsetsHandlerKey: UInt8 = 0
-private var implementationSwapedKey: UInt8 = 0
+internal func - (lhs: UIEdgeInsets, rhs: UIEdgeInsets) -> UIEdgeInsets {
+    return UIEdgeInsets(
+        top: lhs.top - rhs.top,
+        left: lhs.left - rhs.left,
+        bottom: lhs.bottom - rhs.bottom,
+        right: lhs.right - rhs.right
+    )
+}
 
-@available(iOS 11.0, *)
 extension UIScrollView {
     
-    private var topPullToRefreshInsetsHandler: ((UIEdgeInsets) -> Void)? {
+    var normalizedContentOffset: CGPoint {
         get {
-            return objc_getAssociatedObject(self, &topPullToRefreshInsetsHandlerKey) as? ((UIEdgeInsets) -> Void)
-        }
-        set {
-            objc_setAssociatedObject(self, &topPullToRefreshInsetsHandlerKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+            let contentOffset = self.contentOffset
+            let contentInset = self.effectiveContentInset
+            
+            let output = CGPoint(x: contentOffset.x + contentInset.left, y: contentOffset.y + contentInset.top)
+            return output
         }
     }
     
-    private var bottomPullToRefreshInsetsHandler: ((UIEdgeInsets) -> Void)? {
+    var effectiveContentInset: UIEdgeInsets {
         get {
-            return objc_getAssociatedObject(self, &bottomPullToRefreshInsetsHandlerKey) as? ((UIEdgeInsets) -> Void)
+            if #available(iOS 11, *) {
+                return adjustedContentInset
+            } else {
+                return contentInset
+            }
         }
-        set {
-            objc_setAssociatedObject(self, &bottomPullToRefreshInsetsHandlerKey, newValue, .OBJC_ASSOCIATION_RETAIN)
-        }
-    }
-    
-    private var isImplementationSwaped: Bool {
-        get{
-            return objc_getAssociatedObject(self, &implementationSwapedKey) as? Bool ?? false
-        }
-        set{
-             objc_setAssociatedObject(self, &implementationSwapedKey, newValue, .OBJC_ASSOCIATION_RETAIN)
-        }
-    }
-    
-    internal func addAdjustedContentInsetsHandler(forPosition position: Position, handler: @escaping ((UIEdgeInsets) -> Void)) {
-        switch position {
-        case .top:
-            topPullToRefreshInsetsHandler = handler
-        case .bottom:
-            bottomPullToRefreshInsetsHandler = handler
-        }
-        if !isImplementationSwaped {
-            swapAdjustedContentInsetDidChangeImplementation()
-            isImplementationSwaped = true
-        }
-    }
-    
-    private func swapAdjustedContentInsetDidChangeImplementation() {
-        let originalSelector = #selector(adjustedContentInsetDidChange)
-        let swizzledSelector = #selector(patchedAdjustedContentInsetDidChange)
         
-        if let originalMethod = class_getInstanceMethod(UIScrollView.self, originalSelector),
-           let swizzledMethod = class_getInstanceMethod(UIScrollView.self, swizzledSelector) {
-           method_exchangeImplementations(originalMethod, swizzledMethod)
+        set {
+            if #available(iOS 11.0, *), contentInsetAdjustmentBehavior != .never {
+                contentInset = newValue - safeAreaInsets
+            } else {
+                contentInset = newValue
+            }
         }
-    }
-    
-    internal func removeAdjustedContentInsetsHandler(forPosition position: Position) {
-        switch position {
-        case .top:
-            topPullToRefreshInsetsHandler = nil
-        case .bottom:
-            bottomPullToRefreshInsetsHandler = nil
-        }
-        if topPullToRefreshInsetsHandler == nil && bottomPullToRefreshInsetsHandler == nil {
-            swapAdjustedContentInsetDidChangeImplementation()
-            isImplementationSwaped = false
-        }
-    }
-    
-    @objc internal func patchedAdjustedContentInsetDidChange() {
-        topPullToRefreshInsetsHandler?(adjustedContentInset)
-        bottomPullToRefreshInsetsHandler?(adjustedContentInset)
-        patchedAdjustedContentInsetDidChange()
     }
 }
