@@ -33,19 +33,7 @@ public extension UIScrollView {
         }
     }
     
-    internal func defaultFrame(forPullToRefresh pullToRefresh: PullToRefresh) -> CGRect {
-        let view = pullToRefresh.refreshView
-        var originY: CGFloat
-        switch pullToRefresh.position {
-        case .top:
-            originY = -view.frame.size.height
-        case .bottom:
-            originY = contentSize.height
-        }
-        return CGRect(x: 0, y: originY, width: frame.width, height: view.frame.height)
-    }
-    
-    public func addPullToRefresh(_ pullToRefresh: PullToRefresh, action: @escaping () -> ()) {
+    func addPullToRefresh(_ pullToRefresh: PullToRefresh, action: @escaping () -> ()) {
         pullToRefresh.scrollView = self
         pullToRefresh.action = action
         
@@ -65,6 +53,16 @@ public extension UIScrollView {
         
         addSubview(view)
         sendSubview(toBack: view)
+    }
+    
+    func refresher(at position: Position) -> PullToRefresh? {
+        switch position {
+        case .top:
+            return topPullToRefresh
+            
+        case .bottom:
+            return bottomPullToRefresh
+        }
     }
     
     func removePullToRefresh(at position: Position) {
@@ -108,6 +106,7 @@ public extension UIScrollView {
         endRefreshing(at: .top)
         endRefreshing(at: .bottom)
     }
+    
 }
 
 internal func - (lhs: UIEdgeInsets, rhs: UIEdgeInsets) -> UIEdgeInsets {
@@ -119,7 +118,7 @@ internal func - (lhs: UIEdgeInsets, rhs: UIEdgeInsets) -> UIEdgeInsets {
     )
 }
 
-extension UIScrollView {
+internal extension UIScrollView {
     
     var normalizedContentOffset: CGPoint {
         get {
@@ -148,4 +147,18 @@ extension UIScrollView {
             }
         }
     }
+    
+    func defaultFrame(forPullToRefresh pullToRefresh: PullToRefresh) -> CGRect {
+        let view = pullToRefresh.refreshView
+        var originY: CGFloat
+        switch pullToRefresh.position {
+        case .top:
+            originY = -view.frame.size.height
+        case .bottom:
+            originY = contentSize.height
+        }
+        
+        return CGRect(x: 0, y: originY, width: frame.width, height: view.frame.height)
+    }
+
 }
