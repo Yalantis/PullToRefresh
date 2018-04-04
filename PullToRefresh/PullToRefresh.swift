@@ -11,6 +11,16 @@ import UIKit
 public enum Position {
     
     case top, bottom
+    
+    var opposite: Position {
+        switch self {
+        case .top:
+            return .bottom
+        case .bottom:
+            return .top
+        }
+    }
+    
 }
 
 open class PullToRefresh: NSObject {
@@ -25,7 +35,17 @@ open class PullToRefresh: NSObject {
     open var shouldBeVisibleWhileScrolling: Bool = false
     
     let refreshView: UIView
-    var action: (() -> ())?
+    var isEnabled: Bool = false {
+        didSet{
+            refreshView.isHidden = !isEnabled
+            if isEnabled {
+                addScrollViewObserving()
+            } else {
+                removeScrollViewObserving()
+            }
+        }
+    }
+    var action: (() -> Void)?
     
     weak var scrollView: UIScrollView? {
         willSet {
@@ -74,9 +94,12 @@ open class PullToRefresh: NSObject {
                     scrollView?.contentInset = self.scrollViewDefaultInsets
                     state = .initial
                 }
-                
+            case .releasing(progress: let value) where value < 0.1:
+                state = .initial
+            
             default: break
             }
+            self.enableOppositeRefresher(state == .initial)
         }
     }
     
@@ -192,18 +215,30 @@ extension PullToRefresh {
 extension PullToRefresh {
     
     func startRefreshing() {
-        guard state == .initial, let scrollView = scrollView else {
+        guard !isOppositeRefresherLoading, state == .initial, let scrollView = scrollView else {
             return
         }
+        
+        let topInset: CGFloat = {
+            if #available(iOS 11, *) {
+                return scrollView.safeAreaInsets.top
+            }
+            return 0
+        }()
+        
         var offsetY: CGFloat
         switch position {
         case .top:
-            offsetY = -refreshView.frame.height - scrollViewDefaultInsets.top
-            if #available(iOS 11, *) {
-                offsetY -= scrollView.safeAreaInsets.top
-            }
+            offsetY = -refreshView.frame.height - scrollViewDefaultInsets.top - topInset
         case .bottom:
-            offsetY = scrollView.contentSize.height + refreshView.frame.height + scrollViewDefaultInsets.bottom - scrollView.bounds.height
+            if scrollView.contentSize.height + refreshView.frame.height > scrollView.frame.height {
+                offsetY = scrollView.contentSize.height
+                    + refreshView.frame.height
+                    + scrollViewDefaultInsets.bottom
+                    - scrollView.bounds.height
+            } else {
+                offsetY = 0 - topInset
+            }
         }
         state = .loading
         scrollView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
@@ -219,8 +254,21 @@ extension PullToRefresh {
 // MARK: - Animate scroll view
 private extension PullToRefresh {
     
+    var isOppositeRefresherLoading: Bool {
+        guard let scrollView = scrollView, let oppositeRefresher = scrollView.refresher(at: position.opposite) else {
+            return false
+        }
+        return oppositeRefresher.state != .initial
+    }
+    
+    func enableOppositeRefresher(_ enable: Bool) {
+        if let scrollView = scrollView, let oppositeRefresher = scrollView.refresher(at: position.opposite) {
+            oppositeRefresher.isEnabled = enable
+        }
+    }
+    
     func animateLoadingState() {
-        guard let scrollView = scrollView else {
+        guard !isOppositeRefresherLoading, let scrollView = scrollView else {
             return
         }
         
@@ -238,15 +286,14 @@ private extension PullToRefresh {
                     let insetY = self.refreshView.frame.height + self.scrollViewDefaultInsets.bottom
                     scrollView.contentInset.bottom = insetY
                 }
-        },
+            },
             completion: { _ in
                 scrollView.bounces = true
                 if self.shouldBeVisibleWhileScrolling {
                     self.bringRefreshViewToSuperview()
                 }
-        }
+            }
         )
-        
         action?()
     }
     
@@ -260,11 +307,11 @@ private extension PullToRefresh {
             options: animationOptions,
             animations: {
                 self.scrollView?.contentInset = self.scrollViewDefaultInsets
-        },
+            },
             completion: { _ in
                 self.addScrollViewObserving()
                 self.state = .initial
-        }
+            }
         )
     }
 }
