@@ -158,7 +158,8 @@ internal extension UIScrollView {
             originY = contentSize.height
         }
         
-        return CGRect(x: 0, y: originY, width: frame.width, height: view.frame.height)
+        let height = pullToRefresh.topPadding != nil ? view.frame.height + pullToRefresh.topPadding! : view.frame.height
+        return CGRect(x: 0, y: originY, width: frame.width, height: height)
     }
 
 }
