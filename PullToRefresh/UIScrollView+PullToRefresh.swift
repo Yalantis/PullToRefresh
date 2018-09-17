@@ -52,7 +52,11 @@ public extension UIScrollView {
         view.frame = defaultFrame(forPullToRefresh: pullToRefresh)
         
         addSubview(view)
+        #if swift(>=4.2)
+        sendSubviewToBack(view)
+        #else
         sendSubview(toBack: view)
+        #endif
     }
     
     func refresher(at position: Position) -> PullToRefresh? {
