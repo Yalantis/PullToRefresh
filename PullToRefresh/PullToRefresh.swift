@@ -94,6 +94,7 @@ open class PullToRefresh: NSObject {
                     scrollView?.contentInset = self.scrollViewDefaultInsets
                     state = .initial
                 }
+
             case .releasing(progress: let value) where value < 0.1:
                 state = .initial
             
