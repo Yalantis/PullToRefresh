@@ -33,6 +33,7 @@ open class PullToRefresh: NSObject {
     open var initialSpringVelocity: CGFloat = 0.8
     open var animationOptions: UIViewAnimationOptions = [.curveLinear]
     open var shouldBeVisibleWhileScrolling: Bool = false
+    open var topPadding : CGFloat? = nil
     
     let refreshView: UIView
     var isEnabled: Bool = false {
