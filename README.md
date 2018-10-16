@@ -7,6 +7,7 @@ This component implements pure pull-to-refresh logic and you can use it for deve
 ## Requirements
 
 - iOS 8.0+
+- Swift 4.2 (v 3.1+)
 - Swift 3 (v. 2.0+)
 - Swift 2 (v. 1.4)
 
@@ -15,7 +16,7 @@ This component implements pure pull-to-refresh logic and you can use it for deve
 ### with [CocoaPods](https://cocoapods.org)
 ```ruby
 use_frameworks!
-pod 'PullToRefresher', '~> 3.0'
+pod 'PullToRefresher', '~> 3.1'
 ```
 ### with [Carthage](https://github.com/Carthage/Carthage)
 ```ruby
@@ -182,7 +183,7 @@ P.S. We’re going to publish more awesomeness wrapped in code and a tutorial on
 
 	The MIT License (MIT)
 
-	Copyright © 2017 Yalantis
+	Copyright © 2018 Yalantis
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
