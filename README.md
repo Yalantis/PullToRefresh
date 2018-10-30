@@ -40,8 +40,9 @@ let refresher = PullToRefresh()
 It will create a default pull-to-refresh with a simple view which has single *UIActivitiIndicatorView*. To add refresher to your *UIScrollView* subclass:
 
 ```swift
-tableView.addPullToRefresh(refresher) {
+tableView.addPullToRefresh(refresher) { [weak self] in 
     // action to be performed (pull data from some source)
+    self?.tableView.endRefreshing(at: .top)
 }
 ```
 
@@ -49,14 +50,14 @@ tableView.addPullToRefresh(refresher) {
 
 ```swift
 deinit {
-tableView.removePullToRefresh(tableView.topPullToRefresh!)
+  tableView.removePullToRefresh(tableView.topPullToRefresh!)
 }
 ```
 
 After the action is completed and you want to hide the refresher:
 
 ```swift
-tableView.endRefreshing()
+tableView.endRefreshing(at: .top)
 ```
 
 You can also start refreshing programmatically:
