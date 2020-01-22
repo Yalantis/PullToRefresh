@@ -50,7 +50,7 @@ tableView.addPullToRefresh(refresher) {
 
 ```swift
 deinit {
-tableView.removePullToRefresh(tableView.topPullToRefresh!)
+    tableView.removeAllPullToRefresh()
 }
 ```
 
