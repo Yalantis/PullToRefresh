@@ -115,6 +115,8 @@ open class PullToRefresh: NSObject {
         self.refreshView = refreshView
         self.animator = animator
         self.position = position
+        
+        self.refreshView.frame.size.height = height
     }
     
     public convenience init(height: CGFloat = 40, position: Position = .top) {
