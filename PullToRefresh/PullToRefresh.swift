@@ -40,7 +40,7 @@ open class PullToRefresh: NSObject {
     open var topPadding : CGFloat? = nil
     
     let refreshView: UIView
-    var isEnabled: Bool = false {
+    public var isEnabled: Bool = false {
         didSet{
             refreshView.isHidden = !isEnabled
             if isEnabled {
