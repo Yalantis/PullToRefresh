@@ -117,6 +117,8 @@ open class PullToRefresh: NSObject {
         self.position = position
         
         self.refreshView.frame.size.height = height
+        self.refreshView.translatesAutoresizingMaskIntoConstraints = false
+        self.refreshView.autoresizingMask = [.flexibleWidth]
     }
     
     public convenience init(height: CGFloat = 40, position: Position = .top) {
