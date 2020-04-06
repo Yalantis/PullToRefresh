@@ -40,7 +40,9 @@ open class PullToRefresh: NSObject {
     open var topPadding : CGFloat? = nil
     
     let refreshView: UIView
-    public var isEnabled: Bool = false {
+    
+    private(set) var isAutoenablePosible = true
+    public internal(set) var isEnabled: Bool = false {
         didSet{
             refreshView.isHidden = !isEnabled
             if isEnabled {
@@ -127,6 +129,11 @@ open class PullToRefresh: NSObject {
         refreshView.autoresizingMask = [.flexibleWidth]
         refreshView.frame.size.height = height
         self.init(refreshView: refreshView, animator: DefaultViewAnimator(refreshView: refreshView), height: height, position: position)
+    }
+    
+    public func setEnable(isEnabled: Bool) {
+        self.isEnabled = isEnabled
+        isAutoenablePosible = isEnabled
     }
     
     deinit {
@@ -225,7 +232,7 @@ extension PullToRefresh {
 extension PullToRefresh {
     
     func startRefreshing() {
-        guard !isOppositeRefresherLoading, state == .initial, let scrollView = scrollView else {
+        guard !isOppositeRefresherLoading, state == .initial, let scrollView = scrollView, isEnabled else {
             return
         }
         
@@ -255,6 +262,7 @@ extension PullToRefresh {
     }
     
     func endRefreshing() {
+        guard isEnabled else { return }
         if state == .loading {
             state = .finished
         }
@@ -272,9 +280,12 @@ private extension PullToRefresh {
     }
     
     func enableOppositeRefresher(_ enable: Bool) {
-        if let scrollView = scrollView, let oppositeRefresher = scrollView.refresher(at: position.opposite) {
-            oppositeRefresher.isEnabled = enable
-        }
+        guard
+            let scrollView = scrollView,
+            let oppositeRefresher = scrollView.refresher(at: position.opposite),
+            oppositeRefresher.isAutoenablePosible else { return }
+        
+        oppositeRefresher.isEnabled = enable
     }
     
     func animateLoadingState() {
