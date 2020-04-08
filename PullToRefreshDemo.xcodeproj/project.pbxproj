@@ -17,6 +17,11 @@
 		4DDDB1DF1B0F7EE700DE9D93 /* PullToRefresh.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4DDDB1C71B0F7EE700DE9D93 /* PullToRefresh.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4DDDB1E91B0F7F1200DE9D93 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDB1E71B0F7F1200DE9D93 /* PullToRefresh.swift */; };
 		4DDDB1EA1B0F7F1300DE9D93 /* UIScrollView+PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDB1E81B0F7F1200DE9D93 /* UIScrollView+PullToRefresh.swift */; };
+		B52A24DB243B1AF3007508F2 /* ScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52A24DA243B1AF3007508F2 /* ScrollViewController.swift */; };
+		B52A24DD243B4A04007508F2 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52A24DC243B4A04007508F2 /* SettingViewController.swift */; };
+		B56A497E243C819200CCDF73 /* NumberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A497D243C819200CCDF73 /* NumberCollectionViewCell.swift */; };
+		B56A4980243C88B900CCDF73 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A497F243C88B900CCDF73 /* BaseViewController.swift */; };
+		B56A4982243DC1A200CCDF73 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A4981243DC1A200CCDF73 /* CollectionViewController.swift */; };
 		C5E5993E1D4793DF00180FB7 /* DefaultRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E5993D1D4793DF00180FB7 /* DefaultRefreshView.swift */; };
 		C5E599401D4793F400180FB7 /* DefaultViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E5993F1D4793F400180FB7 /* DefaultViewAnimator.swift */; };
 		C5E599421D47942100180FB7 /* RefreshViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E599411D47942100180FB7 /* RefreshViewAnimator.swift */; };
@@ -60,6 +65,11 @@
 		4DDDB1CB1B0F7EE700DE9D93 /* PullToRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PullToRefresh.h; sourceTree = "<group>"; };
 		4DDDB1E71B0F7F1200DE9D93 /* PullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		4DDDB1E81B0F7F1200DE9D93 /* UIScrollView+PullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+PullToRefresh.swift"; sourceTree = "<group>"; };
+		B52A24DA243B1AF3007508F2 /* ScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewController.swift; sourceTree = "<group>"; };
+		B52A24DC243B4A04007508F2 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		B56A497D243C819200CCDF73 /* NumberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberCollectionViewCell.swift; sourceTree = "<group>"; };
+		B56A497F243C88B900CCDF73 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		B56A4981243DC1A200CCDF73 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		C5E5993D1D4793DF00180FB7 /* DefaultRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultRefreshView.swift; sourceTree = "<group>"; };
 		C5E5993F1D4793F400180FB7 /* DefaultViewAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultViewAnimator.swift; sourceTree = "<group>"; };
 		C5E599411D47942100180FB7 /* RefreshViewAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshViewAnimator.swift; sourceTree = "<group>"; };
@@ -106,12 +116,16 @@
 		4DDDB19F1B0F7ED700DE9D93 /* PullToRefreshDemo */ = {
 			isa = PBXGroup;
 			children = (
+				B56A497C243C812000CCDF73 /* CollectionView */,
+				B56A497A243C811000CCDF73 /* ScrollView */,
+				B56A497B243C811900CCDF73 /* TableView */,
 				4DDDB1A21B0F7ED700DE9D93 /* AppDelegate.swift */,
-				4DDDB1A41B0F7ED700DE9D93 /* ViewController.swift */,
 				4DDDB1A61B0F7ED700DE9D93 /* Main.storyboard */,
 				4DDDB1A91B0F7ED700DE9D93 /* Images.xcassets */,
 				4DDDB1AB1B0F7ED700DE9D93 /* LaunchScreen.xib */,
 				4DDDB1A01B0F7ED700DE9D93 /* Supporting Files */,
+				B52A24DC243B4A04007508F2 /* SettingViewController.swift */,
+				B56A497F243C88B900CCDF73 /* BaseViewController.swift */,
 			);
 			path = PullToRefreshDemo;
 			sourceTree = "<group>";
@@ -145,6 +159,31 @@
 				4DDDB1CA1B0F7EE700DE9D93 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B56A497A243C811000CCDF73 /* ScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				B52A24DA243B1AF3007508F2 /* ScrollViewController.swift */,
+			);
+			name = ScrollView;
+			sourceTree = "<group>";
+		};
+		B56A497B243C811900CCDF73 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				4DDDB1A41B0F7ED700DE9D93 /* ViewController.swift */,
+			);
+			name = TableView;
+			sourceTree = "<group>";
+		};
+		B56A497C243C812000CCDF73 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				B56A497D243C819200CCDF73 /* NumberCollectionViewCell.swift */,
+				B56A4981243DC1A200CCDF73 /* CollectionViewController.swift */,
+			);
+			name = CollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,6 +250,7 @@
 				TargetAttributes = {
 					4DDDB19C1B0F7ED700DE9D93 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = MFVF92WP4G;
 						LastSwiftMigration = 1110;
 					};
 					4DDDB1C61B0F7EE700DE9D93 = {
@@ -263,8 +303,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B56A497E243C819200CCDF73 /* NumberCollectionViewCell.swift in Sources */,
 				4DDDB1A51B0F7ED700DE9D93 /* ViewController.swift in Sources */,
+				B56A4980243C88B900CCDF73 /* BaseViewController.swift in Sources */,
+				B52A24DB243B1AF3007508F2 /* ScrollViewController.swift in Sources */,
+				B56A4982243DC1A200CCDF73 /* CollectionViewController.swift in Sources */,
 				4DDDB1A31B0F7ED700DE9D93 /* AppDelegate.swift in Sources */,
+				B52A24DD243B4A04007508F2 /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,9 +463,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MFVF92WP4G;
 				INFOPLIST_FILE = PullToRefreshDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Yalantis.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "Yalantis.PullToRefreshDemo-322";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -430,9 +476,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MFVF92WP4G;
 				INFOPLIST_FILE = PullToRefreshDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Yalantis.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "Yalantis.PullToRefreshDemo-322";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

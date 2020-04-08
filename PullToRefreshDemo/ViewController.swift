@@ -11,7 +11,7 @@ import UIKit
 
 private let PageSize = 20
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController, PullToRefreshPresentable {
     
     @IBOutlet fileprivate var tableView: UITableView!
     fileprivate var dataSourceCount = PageSize
@@ -19,37 +19,28 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupPullToRefresh()
+        setupPullToRefresh(on: tableView)
+    }
+    
+    @IBAction func refreshAction() {
+        tableView.startRefreshing(at: .top)
+    }
+    
+    @IBAction func openSettings() {
+        openSettings(for: tableView)
+    }
+    
+    func loadAction() {
+        dataSourceCount += PageSize
+        tableView.reloadData()
+    }
+    
+    func reloadAction() {
+        dataSourceCount = PageSize
     }
     
     deinit {
         tableView.removeAllPullToRefresh()
-    }
-    
-    @IBAction fileprivate func startRefreshing() {
-        tableView.startRefreshing(at: .top)
-    }
-}
-
-private extension ViewController {
-    
-    func setupPullToRefresh() {
-        tableView.addPullToRefresh(PullToRefresh()) { [weak self] in
-            let delayTime = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-            DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                self?.dataSourceCount = PageSize
-                self?.tableView.endRefreshing(at: .top)
-            }
-        }
-        
-        tableView.addPullToRefresh(PullToRefresh(position: .bottom)) { [weak self] in
-            let delayTime = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-            DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                self?.dataSourceCount += PageSize
-                self?.tableView.reloadData()
-                self?.tableView.endRefreshing(at: .bottom)
-            }
-        }
     }
 }
 
