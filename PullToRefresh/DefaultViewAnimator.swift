@@ -22,17 +22,22 @@ class DefaultViewAnimator: RefreshViewAnimator {
             refreshView.activityIndicator.stopAnimating()
             
         case .releasing(let progress):
-            refreshView.activityIndicator.isHidden = false
-            
-            var transform = CGAffineTransform.identity
-            transform = transform.scaledBy(x: progress, y: progress)
-            transform = transform.rotated(by: CGFloat(Double.pi) * progress * 2)
-            refreshView.activityIndicator.transform = transform
+            transform(to: progress)
             
         case .loading:
+            transform(to: 1.0)
             refreshView.activityIndicator.startAnimating()
             
         default: break
         }
+    }
+    
+    private func transform(to progress: CGFloat) {
+        refreshView.activityIndicator.isHidden = false
+        
+        var transform = CGAffineTransform.identity
+        transform = transform.scaledBy(x: progress, y: progress)
+        transform = transform.rotated(by: CGFloat(Double.pi) * progress * 2)
+        refreshView.activityIndicator.transform = transform
     }
 }
