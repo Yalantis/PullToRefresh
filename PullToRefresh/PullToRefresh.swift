@@ -199,7 +199,7 @@ extension PullToRefresh {
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
-        previousScrollViewOffset.y = scrollView?.normalizedContentOffset.y ?? 0
+        previousScrollViewOffset.y = scrollView?.contentOffset.y ?? 0
     }
     
     fileprivate func addScrollViewObserving() {
@@ -345,7 +345,7 @@ private extension PullToRefresh {
     var isCurrentlyVisible: Bool {
         guard let scrollView = scrollView else { return false }
         
-        return scrollView.normalizedContentOffset.y <= -scrollViewDefaultInsets.top
+        return scrollView.normalizedContentOffset.y <= 0
     }
     
     func bringRefreshViewToSuperview() {
