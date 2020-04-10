@@ -263,6 +263,7 @@ extension PullToRefresh {
     
     func endRefreshing() {
         guard isEnabled else { return }
+        
         if state == .loading {
             state = .finished
         }
@@ -283,7 +284,8 @@ private extension PullToRefresh {
         guard
             let scrollView = scrollView,
             let oppositeRefresher = scrollView.refresher(at: position.opposite),
-            oppositeRefresher.isAutoenablePosible else { return }
+            oppositeRefresher.isAutoenablePosible
+            else { return }
         
         oppositeRefresher.isEnabled = enable
     }

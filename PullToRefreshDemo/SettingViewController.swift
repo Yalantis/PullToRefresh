@@ -22,10 +22,10 @@ class SettingViewController: UIViewController {
         setup(with: scrollView)
     }
     
-    
     @IBAction func topSwitchAction(_ sender: UISwitch) {
         scrollView.refresher(at: .top)?.setEnable(isEnabled: sender.isOn)
     }
+    
     @IBAction func bottomSwitchAction(_ sender: UISwitch) {
         scrollView.refresher(at: .bottom)?.setEnable(isEnabled: sender.isOn)
     }
