@@ -20,7 +20,7 @@
 		B52A24DB243B1AF3007508F2 /* ScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52A24DA243B1AF3007508F2 /* ScrollViewController.swift */; };
 		B52A24DD243B4A04007508F2 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52A24DC243B4A04007508F2 /* SettingViewController.swift */; };
 		B56A497E243C819200CCDF73 /* NumberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A497D243C819200CCDF73 /* NumberCollectionViewCell.swift */; };
-		B56A4980243C88B900CCDF73 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A497F243C88B900CCDF73 /* BaseViewController.swift */; };
+		B56A4980243C88B900CCDF73 /* PullToRefreshPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A497F243C88B900CCDF73 /* PullToRefreshPresentable.swift */; };
 		B56A4982243DC1A200CCDF73 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56A4981243DC1A200CCDF73 /* CollectionViewController.swift */; };
 		C5E5993E1D4793DF00180FB7 /* DefaultRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E5993D1D4793DF00180FB7 /* DefaultRefreshView.swift */; };
 		C5E599401D4793F400180FB7 /* DefaultViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E5993F1D4793F400180FB7 /* DefaultViewAnimator.swift */; };
@@ -68,7 +68,7 @@
 		B52A24DA243B1AF3007508F2 /* ScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewController.swift; sourceTree = "<group>"; };
 		B52A24DC243B4A04007508F2 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		B56A497D243C819200CCDF73 /* NumberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberCollectionViewCell.swift; sourceTree = "<group>"; };
-		B56A497F243C88B900CCDF73 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		B56A497F243C88B900CCDF73 /* PullToRefreshPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefreshPresentable.swift; sourceTree = "<group>"; };
 		B56A4981243DC1A200CCDF73 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		C5E5993D1D4793DF00180FB7 /* DefaultRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultRefreshView.swift; sourceTree = "<group>"; };
 		C5E5993F1D4793F400180FB7 /* DefaultViewAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultViewAnimator.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 				4DDDB1AB1B0F7ED700DE9D93 /* LaunchScreen.xib */,
 				4DDDB1A01B0F7ED700DE9D93 /* Supporting Files */,
 				B52A24DC243B4A04007508F2 /* SettingViewController.swift */,
-				B56A497F243C88B900CCDF73 /* BaseViewController.swift */,
+				B56A497F243C88B900CCDF73 /* PullToRefreshPresentable.swift */,
 			);
 			path = PullToRefreshDemo;
 			sourceTree = "<group>";
@@ -305,7 +305,7 @@
 			files = (
 				B56A497E243C819200CCDF73 /* NumberCollectionViewCell.swift in Sources */,
 				4DDDB1A51B0F7ED700DE9D93 /* TableViewController.swift in Sources */,
-				B56A4980243C88B900CCDF73 /* BaseViewController.swift in Sources */,
+				B56A4980243C88B900CCDF73 /* PullToRefreshPresentable.swift in Sources */,
 				B52A24DB243B1AF3007508F2 /* ScrollViewController.swift in Sources */,
 				B56A4982243DC1A200CCDF73 /* CollectionViewController.swift in Sources */,
 				4DDDB1A31B0F7ED700DE9D93 /* AppDelegate.swift in Sources */,
