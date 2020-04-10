@@ -11,7 +11,7 @@
         <!--Table View-->
         <scene sceneID="3ct-wt-UQ3">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="euR-sR-P7S" customClass="ViewController" customModule="PullToRefreshDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="euR-sR-P7S" customClass="TableViewController" customModule="PullToRefreshDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uCv-hu-f0W"/>
                         <viewControllerLayoutGuide type="bottom" id="DVG-OW-ZG2"/>

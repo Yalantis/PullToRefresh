@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TableViewController.swift
 //  PullToRefresh
 //
 //  Created by Anastasiya Gorban on 5/19/15.
@@ -11,7 +11,7 @@ import UIKit
 
 private let PageSize = 20
 
-final class ViewController: UIViewController, PullToRefreshPresentable {
+final class TableViewController: UIViewController, PullToRefreshPresentable {
     
     @IBOutlet fileprivate var tableView: UITableView!
     fileprivate var dataSourceCount = PageSize
@@ -44,7 +44,7 @@ final class ViewController: UIViewController, PullToRefreshPresentable {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension TableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSourceCount
