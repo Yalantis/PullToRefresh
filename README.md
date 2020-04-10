@@ -77,6 +77,14 @@ Unfortunaly, *UITableView* with sections currently not supported. But you can re
 
 ⚠️ By default PullToRefresh has transparent background which leads to unwanted overlapping behavour. ⚠️
 
+## Disable/Enable
+
+You can disable/enable refresher in runtime:
+
+```Swift
+yourRefresher.setEnable(isEnabled: false)
+```
+
 ## Creating custom PullToRefresh
 
 To create a custom refresher you would need to initialize *PullToRefresh* class with two objects:
